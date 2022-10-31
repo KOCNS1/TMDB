@@ -1,11 +1,15 @@
 import { HttpService } from '@nestjs/axios';
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { RequestToken } from './type/requestToken';
 import { AccessToken } from './type/accessToken';
+import { TmdbTokenService } from 'src/auth/tmdb/tmdb-token/tmdb-token.service';
 
 @Injectable()
 export class TmdbAuthService {
-  constructor(private readonly httpService: HttpService) {}
+  constructor(
+    private readonly httpService: HttpService,
+    private readonly tmdbTokenService: TmdbTokenService,
+  ) {}
 
   async createRequestToken(redirectUrl?: string) {
     try {
@@ -56,5 +60,43 @@ export class TmdbAuthService {
     } catch (error) {
       console.log(error.message);
     }
+  }
+
+  async connectTmdb(redirectUrl?: string) {
+    return await this.createAuthUrl(redirectUrl);
+  }
+
+  async linkTmdb(userId: string, requestToken: string) {
+    try {
+      const tmdbToken = await this.getAccessToken(requestToken);
+      return await this.tmdbTokenService.createTmdbToken({
+        userId: +userId,
+        token: tmdbToken.access_token,
+        tmdbId: tmdbToken.account_id,
+      });
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error.message, HttpStatus.NOT_ACCEPTABLE);
+    }
+  }
+
+  async userHasTmdbToken(userId: string): Promise<boolean> {
+    const tmdbToken = await this.tmdbTokenService.getTmdbToken({
+      userId: +userId,
+    });
+    return !!tmdbToken;
+  }
+
+  async unlinkTmdb(userId: string) {
+    const tmdbToken = await this.tmdbTokenService.getTmdbToken({
+      userId: +userId,
+    });
+    if (!tmdbToken) {
+      throw new HttpException(
+        'No tmdb token found for this user',
+        HttpStatus.NOT_FOUND,
+      );
+    }
+    await this.tmdbTokenService.deleteTmdbToken({ id: tmdbToken.id });
   }
 }

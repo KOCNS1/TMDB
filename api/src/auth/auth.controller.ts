@@ -23,17 +23,25 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() body: BasicAuthDto) {
-    return this.authService.login(body.email, body.password);
+    return this.authService.basicAuthService.login(body.email, body.password);
+  }
+
+  @Post('register')
+  async register(@Body() body: BasicAuthDto) {
+    return this.authService.basicAuthService.register(
+      body.email,
+      body.password,
+    );
   }
 
   @Post('refresh')
   async refresh(@Body() body: RefreshTokenDto) {
-    return await this.authService.refresh(body.refreshToken);
+    return await this.authService.basicAuthService.refresh(body.refreshToken);
   }
 
   @Delete('logout')
   async logout(@Body() body: RefreshTokenDto) {
-    return this.authService.logout(body.refreshToken);
+    return this.authService.basicAuthService.logout(body.refreshToken);
   }
 
   @Get('/verify')
@@ -44,7 +52,10 @@ export class AuthController {
     if (!token || !refreshToken)
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     const access_token = token.split(' ')[1];
-    return this.authService.verifyToken(access_token, refreshToken);
+    return this.authService.basicAuthService.verifyToken(
+      access_token,
+      refreshToken,
+    );
   }
 
   /**
@@ -53,7 +64,9 @@ export class AuthController {
 
   @Post('/google/login')
   async loginGoogleUser(@Body() body: GoogleTokenDto) {
-    const result = await this.authService.loginGoogleUser(body.token);
+    const result = await this.authService.googleAuthService.loginGoogleUser(
+      body.token,
+    );
     if (result) {
       return result;
     } else {
@@ -66,7 +79,9 @@ export class AuthController {
 
   @Post('/google/register')
   async registerGoogleUser(@Body() body: GoogleTokenDto) {
-    const result = await this.authService.registerGoogleUser(body.token);
+    const result = await this.authService.googleAuthService.registerGoogleUser(
+      body.token,
+    );
     if (result) {
       return result;
     } else {
@@ -85,7 +100,7 @@ export class AuthController {
   @Post('/tmdb/request-token')
   async linkTmdbUser(@Query('redirect_to') redirectUrl?: string) {
     console.log('redirectUrl', redirectUrl);
-    return await this.authService.connectTmdb(redirectUrl);
+    return await this.authService.tmdbAuthService.connectTmdb(redirectUrl);
   }
 
   // takes the validated request token and gives the user the access token
@@ -93,7 +108,10 @@ export class AuthController {
   @Post('/tmdb/link')
   async callbackTmdbUser(@Body() body: { request_token: string }, @Req() req) {
     const userId = req.user.userId;
-    const result = await this.authService.linkTmdb(userId, body.request_token);
+    const result = await this.authService.tmdbAuthService.linkTmdb(
+      userId,
+      body.request_token,
+    );
     return result;
   }
 
@@ -102,7 +120,9 @@ export class AuthController {
   @Get('/tmdb/verify')
   async verifyTmdbUser(@Req() req) {
     const userId = req.user.userId;
-    const valid = await this.authService.userHasTmdbToken(userId);
+    const valid = await this.authService.tmdbAuthService.userHasTmdbToken(
+      userId,
+    );
     return { valid };
   }
 
@@ -111,7 +131,7 @@ export class AuthController {
   @Delete('/tmdb/unlink')
   async unlinkTmdbUser(@Req() req) {
     const userId = req.user.userId;
-    const result = await this.authService.unlinkTmdb(userId);
+    const result = await this.authService.tmdbAuthService.unlinkTmdb(userId);
     return result;
   }
 }
