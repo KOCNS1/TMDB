@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Body, Controller, Get, Param } from '@nestjs/common';
 import { AppendToResponseTv } from 'src/types/api-interfaces';
 import { TvService } from './tv.service';
 
@@ -12,8 +12,10 @@ export class TvController {
   }
 
   @Get('details/:id')
-  async getDetails(@Param('id') id: number, @Query('append') append: string) {
-    const appendToResponse = append?.split(',') as AppendToResponseTv[];
+  async getDetails(
+    @Param('id') id: number,
+    @Body('appendToResponse') appendToResponse?: AppendToResponseTv[],
+  ) {
     return this.tvService.getDetails(id, appendToResponse);
   }
 }

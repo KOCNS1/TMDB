@@ -1,6 +1,7 @@
 import { HttpService } from '@nestjs/axios';
 import { Injectable } from '@nestjs/common';
 import {
+  AppendToResponseTv,
   GenericListResult,
   Movie,
   PopularInput,
@@ -29,5 +30,23 @@ export class MovieService {
       total_results: data.total_results,
       results: data.results,
     };
+  }
+
+  async getDetails(
+    id: number,
+    appendToResponse?: AppendToResponseTv[],
+  ): Promise<Movie> {
+    console.log(appendToResponse);
+    const { data } = await this.httpService.axiosRef.get<Movie>(
+      `https://api.themoviedb.org/3/movie/${id}`,
+      {
+        params: {
+          ...this.httpService.axiosRef.defaults.params,
+          append_to_response: appendToResponse?.join(','),
+        },
+      },
+    );
+
+    return data;
   }
 }
