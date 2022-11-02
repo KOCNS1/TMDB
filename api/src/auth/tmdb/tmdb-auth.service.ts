@@ -75,7 +75,6 @@ export class TmdbAuthService {
         tmdbId: tmdbToken.account_id,
       });
     } catch (error) {
-      console.log(error);
       throw new HttpException(error.message, HttpStatus.NOT_ACCEPTABLE);
     }
   }

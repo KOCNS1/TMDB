@@ -1,53 +1,51 @@
 import {
   Controller,
   Get,
-  Post,
   Body,
-  Patch,
   Param,
   Delete,
   UseGuards,
   Req,
+  Put,
 } from '@nestjs/common';
 import { UserService } from './user.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { UserOwnerGuard } from './guards/user-owner.guard';
+import { Prisma } from '@prisma/client';
 
 @Controller('user')
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    //return this.userService.create(createUserDto);
-  }
-
   @Get()
-  findAll() {
-    return this.userService.users({});
+  async findAll() {
+    return await this.userService.users({});
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('me')
-  async me(@Req() req) {
-    const userId = req.user.userId;
-    return await this.userService.user({ id: userId });
-  }
-
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    //return this.userService.findOne(+id);
-    console.log('first');
+  async findOne(@Param('id') id: string, @Req() req) {
+    const userId = id === 'me' ? req.user.userId : +id;
+    const user = await this.userService.user({ id: userId });
+    id !== 'me' && delete user.password;
+    return user;
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    // return this.userService.update(+id, updateUserDto);
+  @UseGuards(JwtAuthGuard, UserOwnerGuard)
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateUserDto: Prisma.UserUpdateManyMutationInput,
+  ) {
+    return await this.userService.updateUser({
+      where: { id: +id },
+      data: updateUserDto,
+    });
   }
 
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    // return this.userService.remove(+id);
+  async remove(@Param('id') id: string) {
+    return await this.userService.deleteUser({ id: +id });
   }
 }

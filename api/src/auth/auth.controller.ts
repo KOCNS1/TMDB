@@ -103,7 +103,7 @@ export class AuthController {
     return await this.authService.tmdbAuthService.connectTmdb(redirectUrl);
   }
 
-  // takes the validated request token and gives the user the access token
+  // takes the validated request token and asign to the user an TMDB access token
   @UseGuards(JwtAuthGuard)
   @Post('/tmdb/link')
   async callbackTmdbUser(@Body() body: { request_token: string }, @Req() req) {
