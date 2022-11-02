@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserService } from 'src/user/user.service';
-
+import { hashSync, genSaltSync, compareSync } from 'bcrypt';
 import { verify } from 'jsonwebtoken';
 import { RefreshTokenService } from 'src/refresh-token/refresh-token.service';
 import { TokenService } from '../token/token.service';
@@ -45,9 +45,11 @@ export class BasicAuthService {
         HttpStatus.CONFLICT,
       );
     }
+    const salt = genSaltSync(10);
+    const hashedPassword = hashSync(password, salt);
     const newUser = await this.userService.createUser({
       email,
-      password,
+      password: hashedPassword,
     });
     return this.tokenService.newRefreshAndAccessToken(newUser);
   }

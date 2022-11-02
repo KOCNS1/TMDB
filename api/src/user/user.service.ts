@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { User, Prisma } from '@prisma/client';
 import { PrismaService } from '../prisma/prisma.service';
+import { compareSync } from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -55,6 +56,6 @@ export class UserService {
   }
 
   validatePassword(user, password) {
-    return user.password === password;
+    return compareSync(password, user.password);
   }
 }
