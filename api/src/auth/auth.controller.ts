@@ -35,8 +35,10 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh(@Body() body: RefreshTokenDto) {
-    return await this.authService.basicAuthService.refresh(body.refreshToken);
+  async refresh(@Headers('x-refresh') refreshToken: string) {
+    if (!refreshToken)
+      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+    return await this.authService.basicAuthService.refresh(refreshToken);
   }
 
   @Delete('logout')
@@ -44,12 +46,12 @@ export class AuthController {
     return this.authService.basicAuthService.logout(body.refreshToken);
   }
 
-  @Get('/verify')
+  @Post('/verify')
   async verify(
     @Headers('authorization') token: string,
     @Headers('x-refresh') refreshToken: string,
   ) {
-    if (!token || !refreshToken)
+    if (!refreshToken)
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
     const access_token = token.split(' ')[1];
     return this.authService.basicAuthService.verifyToken(

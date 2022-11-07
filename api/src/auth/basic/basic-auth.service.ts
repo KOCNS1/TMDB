@@ -60,6 +60,11 @@ export class BasicAuthService {
       if (typeof decoded === 'string') {
         throw new HttpException('Invalid token', HttpStatus.UNAUTHORIZED);
       }
+      return {
+        accessToken: token,
+        refreshToken: refreshToken,
+        expiresIn: 3600,
+      };
     } catch (error) {
       const { accessToken } = await this.refresh(refreshToken);
       return { accessToken, refreshToken: refreshToken, expiresIn: 3600 };
@@ -72,11 +77,11 @@ export class BasicAuthService {
       this.refreshTokenService,
     );
     if (!refreshToken) {
-      return undefined;
+      throw new HttpException('Invalid refresh Token', HttpStatus.UNAUTHORIZED);
     }
     const user = await this.userService.user({ id: refreshToken.userId });
     if (!user) {
-      return undefined;
+      throw new HttpException('No user found with', HttpStatus.NOT_FOUND);
     }
     const accessToken = await this.tokenService.createAccessToken(user);
     return { accessToken };
