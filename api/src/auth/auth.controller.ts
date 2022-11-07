@@ -9,6 +9,7 @@ import {
   Post,
   Query,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { RefreshTokenDto } from '../refresh-token/dto/refresh-token.dto';
@@ -16,14 +17,35 @@ import { AuthService } from './auth.service';
 import GoogleTokenDto from './dto/google-token.dto';
 import { BasicAuthDto } from './dto/basic-auth.dto';
 import { JwtAuthGuard } from './guards/jwt-auth.guard';
+import { Response, Request } from 'express';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('login')
-  async login(@Body() body: BasicAuthDto) {
-    return this.authService.basicAuthService.login(body.email, body.password);
+  async login(
+    @Body() body: BasicAuthDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const res = await this.authService.basicAuthService.login(
+      body.email,
+      body.password,
+    );
+    response.cookie('refreshToken', res.refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+    });
+
+    response.cookie('accessToken', res.accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000),
+    });
+    response.cookie('logged_in', true, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 900000),
+    });
+    return res;
   }
 
   @Post('register')
@@ -35,10 +57,23 @@ export class AuthController {
   }
 
   @Post('refresh')
-  async refresh(@Headers('x-refresh') refreshToken: string) {
+  async refresh(
+    @Req() request: Request,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const refreshToken = request.cookies.refreshToken;
     if (!refreshToken)
       throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
-    return await this.authService.basicAuthService.refresh(refreshToken);
+    const res = await this.authService.basicAuthService.refresh(refreshToken);
+    response.cookie('accessToken', res.accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000),
+    });
+    response.cookie('logged_in', true, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 900000),
+    });
+    return res;
   }
 
   @Delete('logout')
