@@ -1,19 +1,89 @@
-import { useForm } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useLocation, useNavigate } from "react-router-dom";
+import { object, string, TypeOf, ZodObject, ZodString, ZodTypeAny } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
-type FormValues = {
-  email: string;
-  password: string;
-};
+import { getMeFn, loginUserFn } from "../../api/auth";
+import { useStateContext } from "../../context/auth/auth.context";
+import { toast } from "react-toastify";
+import { useEffect } from "react";
+
+const loginSchema = object({
+  email: string()
+    .min(1, "Email address is required")
+    .email("Email Address is invalid"),
+  password: string()
+    .min(1, "Password is required")
+    .min(3, "Password must be more than 8 characters")
+    .max(32, "Password must be less than 32 characters"),
+});
+
+export type LoginInput = TypeOf<typeof loginSchema>;
 
 const Auth = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const from = ((location.state as any)?.from.pathname as string) || "/";
+
+  const stateContext = useStateContext();
+
+  const query = useQuery(["authUser"], getMeFn, {
+    enabled: false,
+    retry: 1,
+    onSuccess: (data) => {
+      stateContext.dispatch({ type: "SET_USER", payload: data });
+    },
+  });
+
+  const methods = useForm<LoginInput>({
+    resolver: zodResolver(loginSchema),
+  });
+
+  const { mutate: loginUser, isLoading } = useMutation(
+    (userData: LoginInput) => loginUserFn(userData),
+    {
+      onSuccess: (res) => {
+        console.log(res);
+        query.refetch();
+        toast.success("You successfully logged in");
+        //navigate(from);
+      },
+      onError: (error: any) => {
+        if (Array.isArray((error as any).response.data.error)) {
+          (error as any).response.data.error.forEach((el: any) =>
+            toast.error(el.message, {
+              position: "top-right",
+            })
+          );
+        } else {
+          toast.error((error as any).response.data.message, {
+            position: "top-right",
+          });
+        }
+      },
+    }
+  );
+
   const {
-    register,
+    reset,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormValues>();
-  const onSubmit = (data: any) => {
-    console.log(data);
+    formState: { isSubmitSuccessful },
+    register,
+  } = methods;
+
+  useEffect(() => {
+    if (isSubmitSuccessful) {
+      reset();
+    }
+  }, [isSubmitSuccessful]);
+
+  const onSubmitHandler: SubmitHandler<LoginInput> = (values) => {
+    console.log(values);
+    loginUser(values);
   };
+
   return (
     <>
       <div className="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 ">
@@ -39,7 +109,10 @@ const Auth = () => {
 
         <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md shadow-md shadow-black drop-shadow-md">
           <div className="bg-gray-800 py-8 px-4 shadow sm:rounded-lg sm:px-10">
-            <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+            <form
+              className="space-y-6"
+              onSubmit={handleSubmit(onSubmitHandler)}
+            >
               <div>
                 <label
                   htmlFor="email"

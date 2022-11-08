@@ -1,117 +1,57 @@
-import {
-  createContext,
-  ReactNode,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
-import { Navigate, useLocation, useNavigate } from "react-router-dom";
-import axios from "axios";
+import React, { createContext, useContext, useReducer } from "react";
+import { IUser } from "../../api/types";
 
-interface AuthContextType {
-  user: any;
-  signin: (user: string, callback: VoidFunction) => void;
-  signout: (callback: VoidFunction) => void;
-  isLoggedIn: boolean;
-}
-
-const AuthContext = createContext<AuthContextType>(null!);
-
-export const AuthProvider = ({ children }: { children: ReactNode }) => {
-  const [user, setUser] = useState<any>(null);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
-
-  const signin = (newUser: string, callback: VoidFunction) => {
-    // return fakeAuthProvider.signin(() => {
-    //   setUser(newUser);
-    //   callback();
-    // });
-  };
-  const storeToken = (token: string, refresh: string) => {
-    localStorage.setItem("token", token);
-    localStorage.setItem("x-refresh", refresh);
-  };
-
-  const removeToken = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("x-refresh");
-  };
-
-  const signout = (callback: VoidFunction) => {
-    // return fakeAuthProvider.signout(() => {
-    //   setUser(null);
-    //   callback();
-    // });
-  };
-
-  const authenticateUser = async () => {
-    const res = await verifyToken();
-    console.log(res);
-    if (res) {
-      setUser(res);
-      setIsLoggedIn(true);
-    } else {
-      setIsLoggedIn(false);
-      setUser(null);
-    }
-  };
-
-  // Verify token and refresh the token if it is expired
-  const verifyToken = async () => {
-    const token = localStorage.getItem("token");
-    const refreshToken = localStorage.getItem("x-refresh");
-
-    if (!token || !refreshToken) return false;
-
-    try {
-      const res = await axios({
-        method: "POST",
-        url: "http://localhost:4000/auth/verify",
-        headers: {
-          authorization: `Bearer ${token}`,
-          "x-refresh-token": refreshToken,
-        },
-      });
-      return res.data;
-    } catch (error) {
-      console.log("you are not logged in");
-      removeToken();
-    }
-  };
-
-  useEffect(() => {
-    authenticateUser();
-  }, []);
-
-  const value = {
-    user,
-    signin,
-    signout,
-    isLoggedIn,
-    authenticateUser,
-    verifyToken,
-    storeToken,
-    removeToken,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+type State = {
+  authUser: IUser | null;
 };
 
-export const useAuth = () => {
-  return useContext(AuthContext);
+type Action = {
+  type: string;
+  payload: IUser | null;
 };
 
-export const RequireAuth = ({ children }: { children: JSX.Element }) => {
-  const auth = useAuth();
-  const location = useLocation();
+type Dispatch = (action: Action) => void;
 
-  if (!auth.user) {
-    // Redirect them to the /login page, but save the current location they were
-    // trying to go to when they were redirected. This allows us to send them
-    // along to that page after they login, which is a nicer user experience
-    // than dropping them off on the home page.
-    return <Navigate to="/login" state={{ from: location }} replace />;
+const initialState: State = {
+  authUser: null,
+};
+
+type StateContextProviderProps = { children: React.ReactNode };
+
+const StateContext = createContext<
+  { state: State; dispatch: Dispatch } | undefined
+>(undefined);
+
+const stateReducer = (state: State, action: Action) => {
+  switch (action.type) {
+    case "SET_USER": {
+      return {
+        ...state,
+        authUser: action.payload,
+      };
+    }
+    default: {
+      throw new Error(`Unhandled action type`);
+    }
+  }
+};
+
+const StateContextProvider = ({ children }: StateContextProviderProps) => {
+  const [state, dispatch] = useReducer(stateReducer, initialState);
+  const value = { state, dispatch };
+  return (
+    <StateContext.Provider value={value}>{children}</StateContext.Provider>
+  );
+};
+
+const useStateContext = () => {
+  const context = useContext(StateContext);
+
+  if (context) {
+    return context;
   }
 
-  return children;
+  throw new Error(`useStateContext must be used within a StateContextProvider`);
 };
+
+export { StateContextProvider, useStateContext };

@@ -3,7 +3,7 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
-import { useAuth } from "../context/auth/auth.context";
+import { useStateContext } from "../context/auth/auth.context";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +17,7 @@ const navigation = [
 ];
 
 const Header = () => {
-  const { user, isLoggedIn } = useAuth();
+  const { state } = useStateContext();
   return (
     <Disclosure
       as="nav"
@@ -87,7 +87,7 @@ const Header = () => {
                 </Disclosure.Button>
               </div>
               <div className="hidden lg:ml-4 lg:block">
-                {!isLoggedIn ? (
+                {!state.authUser ? (
                   <NavLink
                     to={"/auth"}
                     className="rounded-md border border-transparent bg-blue-500 py-2 px-6 text-base font-medium text-white shadow-md hover:bg-blue-600"

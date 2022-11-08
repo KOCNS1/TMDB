@@ -1,5 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
+import { RequireAuth } from "../components/RequireAuth";
 import Auth from "../pages/auth/Auth";
 import Home from "../pages/Home";
 
@@ -13,7 +14,7 @@ const router = createBrowserRouter([
         element: <Auth />,
       },
       {
-        path: "/",
+        path: "",
         element: <Home />,
       },
       {
@@ -26,7 +27,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/list",
-        element: <div>404</div>,
+        element: (
+          <RequireAuth>
+            <div>404</div>
+          </RequireAuth>
+        ),
       },
     ],
   },

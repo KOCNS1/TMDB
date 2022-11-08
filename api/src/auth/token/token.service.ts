@@ -24,16 +24,13 @@ export class TokenService {
     return { accessToken, refreshToken: token, expiresIn: 3600 };
   }
 
-  async retriveRefreshToken(
-    token: string,
-    refreshTokenService,
-  ): Promise<RefreshToken> {
+  async retriveRefreshToken(token: string): Promise<RefreshToken> {
     try {
       const decoded = verify(token, process.env.JWT_REFRESH_SECRET);
       if (typeof decoded === 'string') {
         return undefined;
       }
-      const newRToken = await refreshTokenService.getRefreshToken({
+      const newRToken = await this.refreshTokenService.getRefreshToken({
         userId: decoded.id,
       });
       return newRToken;

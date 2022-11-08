@@ -22,7 +22,8 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.enableCors({
-    origin: 'http://localhost:4200',
+    origin: 'http://localhost:5173',
+    credentials: true,
   });
   app.use(cookieParser());
 

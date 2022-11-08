@@ -35,15 +35,21 @@ export class AuthController {
     response.cookie('refreshToken', res.refreshToken, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: 'none',
+      secure: true,
     });
 
     response.cookie('accessToken', res.accessToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
     });
     response.cookie('logged_in', true, {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
     });
     return res;
   }
@@ -68,17 +74,25 @@ export class AuthController {
     response.cookie('accessToken', res.accessToken, {
       httpOnly: true,
       expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
     });
     response.cookie('logged_in', true, {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
     });
     return res;
   }
 
   @Delete('logout')
-  async logout(@Body() body: RefreshTokenDto) {
-    return this.authService.basicAuthService.logout(body.refreshToken);
+  async logout(@Req() req, @Res() res: Response) {
+    const refreshToken = req.cookies.refreshToken;
+    res.cookie('accessToken', '', { maxAge: -1 });
+    res.cookie('refreshToken', '', { maxAge: -1 });
+    res.cookie('logged_in', '', { maxAge: -1 });
+    return this.authService.basicAuthService.logout(refreshToken);
   }
 
   @Post('/verify')

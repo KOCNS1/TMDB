@@ -4,6 +4,7 @@ import { hashSync, genSaltSync, compareSync } from 'bcrypt';
 import { verify } from 'jsonwebtoken';
 import { RefreshTokenService } from 'src/refresh-token/refresh-token.service';
 import { TokenService } from '../token/token.service';
+import { RefreshToken } from '@prisma/client';
 
 @Injectable()
 export class BasicAuthService {
@@ -74,7 +75,6 @@ export class BasicAuthService {
   async refresh(refreshStr: string) {
     const refreshToken = await this.tokenService.retriveRefreshToken(
       refreshStr,
-      this.refreshTokenService,
     );
     if (!refreshToken) {
       throw new HttpException('Invalid refresh Token', HttpStatus.UNAUTHORIZED);
@@ -87,14 +87,17 @@ export class BasicAuthService {
     return { accessToken };
   }
 
-  async logout(refreshStr: string): Promise<void> {
+  async logout(refreshStr: string) {
     const refreshToken = await this.tokenService.retriveRefreshToken(
       refreshStr,
-      this.refreshTokenService,
     );
     if (!refreshToken) {
-      return;
+      throw new HttpException(
+        'User already logged out',
+        HttpStatus.UNAUTHORIZED,
+      );
     }
-    await this.refreshTokenService.deleteRefreshToken({ id: refreshToken.id });
+    this.refreshTokenService.deleteRefreshToken({ id: refreshToken.id });
+    throw new HttpException('User logged out', HttpStatus.OK);
   }
 }
