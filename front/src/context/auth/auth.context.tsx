@@ -3,6 +3,7 @@ import { IUser } from "../../api/types";
 
 type State = {
   authUser: IUser | null;
+  loggedIn: boolean;
 };
 
 type Action = {
@@ -14,6 +15,7 @@ type Dispatch = (action: Action) => void;
 
 const initialState: State = {
   authUser: null,
+  loggedIn: false,
 };
 
 type StateContextProviderProps = { children: React.ReactNode };
@@ -28,6 +30,14 @@ const stateReducer = (state: State, action: Action) => {
       return {
         ...state,
         authUser: action.payload,
+        loggedIn: action.payload ? true : false,
+      };
+    }
+    case "LOGOUT": {
+      return {
+        ...state,
+        authUser: null,
+        loggedIn: false,
       };
     }
     default: {

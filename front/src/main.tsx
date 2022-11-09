@@ -16,8 +16,18 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <QueryClientProvider client={queryClient}>
       <StateContextProvider>
         <RouterProvider router={router} />
-        <ToastContainer />
-
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="dark"
+        />
         <ReactQueryDevtools />
       </StateContextProvider>
     </QueryClientProvider>

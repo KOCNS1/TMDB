@@ -3,7 +3,7 @@ import { useStateContext } from "../context/auth/auth.context";
 import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
 import { getMeFn } from "../api/auth";
-import FullScreenLoader from "./FullScreenLoader";
+import FullScreenLoader from "./ui/FullScreenLoader";
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const [cookies] = useCookies(["logged_in"]);
@@ -14,7 +14,6 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
     retry: 1,
 
     onSuccess: (data) => {
-      console.log(data);
       stateContext.dispatch({ type: "SET_USER", payload: data });
     },
   });
@@ -23,7 +22,6 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   if (loading) {
     return <FullScreenLoader />;
   }
-  console.log(data);
 
   if (!cookies.logged_in || !data) {
     // Redirect them to the /login page, but save the current location they were

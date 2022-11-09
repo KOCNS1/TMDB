@@ -55,11 +55,34 @@ export class AuthController {
   }
 
   @Post('register')
-  async register(@Body() body: BasicAuthDto) {
-    return this.authService.basicAuthService.register(
+  async register(
+    @Body() body: BasicAuthDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const res = await this.authService.basicAuthService.register(
       body.email,
       body.password,
     );
+    response.cookie('refreshToken', res.refreshToken, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 7,
+      sameSite: 'none',
+      secure: true,
+    });
+
+    response.cookie('accessToken', res.accessToken, {
+      httpOnly: true,
+      expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
+    });
+    response.cookie('logged_in', true, {
+      httpOnly: false,
+      expires: new Date(Date.now() + 900000),
+      sameSite: 'none',
+      secure: true,
+    });
+    return res;
   }
 
   @Post('refresh')
@@ -69,7 +92,7 @@ export class AuthController {
   ) {
     const refreshToken = request.cookies.refreshToken;
     if (!refreshToken)
-      throw new HttpException('Unauthorized', HttpStatus.UNAUTHORIZED);
+      throw new HttpException('No refresh token', HttpStatus.UNAUTHORIZED);
     const res = await this.authService.basicAuthService.refresh(refreshToken);
     response.cookie('accessToken', res.accessToken, {
       httpOnly: true,

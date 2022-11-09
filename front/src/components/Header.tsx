@@ -4,6 +4,7 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink } from "react-router-dom";
 import { useStateContext } from "../context/auth/auth.context";
+import { logoutUserFn } from "../api/auth";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -17,7 +18,12 @@ const navigation = [
 ];
 
 const Header = () => {
-  const { state } = useStateContext();
+  const { state, dispatch } = useStateContext();
+
+  const handleLogout = async () => {
+    await logoutUserFn();
+    dispatch({ type: "LOGOUT", payload: null });
+  };
   return (
     <Disclosure
       as="nav"
@@ -87,7 +93,7 @@ const Header = () => {
                 </Disclosure.Button>
               </div>
               <div className="hidden lg:ml-4 lg:block">
-                {!state.authUser ? (
+                {!state.loggedIn ? (
                   <NavLink
                     to={"/auth"}
                     className="rounded-md border border-transparent bg-blue-500 py-2 px-6 text-base font-medium text-white shadow-md hover:bg-blue-600"
@@ -95,7 +101,7 @@ const Header = () => {
                     Login
                   </NavLink>
                 ) : (
-                  <UserProfile />
+                  <UserProfile handleLogout={handleLogout} />
                 )}
               </div>
             </div>
@@ -183,7 +189,7 @@ const Header = () => {
   );
 };
 
-const UserProfile = () => {
+const UserProfile = ({ handleLogout }: { handleLogout: () => void }) => {
   return (
     <div className="flex items-center">
       <button
@@ -250,6 +256,7 @@ const UserProfile = () => {
                     active ? "bg-gray-100" : "",
                     "block px-4 py-2 text-sm text-gray-700"
                   )}
+                  onClick={() => handleLogout()}
                 >
                   Sign out
                 </a>

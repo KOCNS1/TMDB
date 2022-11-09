@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { object, string, TypeOf, ZodObject, ZodString, ZodTypeAny } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { getMeFn, loginUserFn } from "../../api/auth";
+import { getMeFn, loginUserFn, signUpUserFn } from "../../api/auth";
 import { useStateContext } from "../../context/auth/auth.context";
 import { toast } from "react-toastify";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 const loginSchema = object({
   email: string()
@@ -22,6 +22,7 @@ const loginSchema = object({
 export type LoginInput = TypeOf<typeof loginSchema>;
 
 const Auth = () => {
+  const [toggleRegister, setToggleRegister] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -29,9 +30,8 @@ const Auth = () => {
 
   const stateContext = useStateContext();
 
-  const query = useQuery(["authUser"], getMeFn, {
-    enabled: false,
-    retry: 1,
+  const query = useMutation(["authUser"], getMeFn, {
+    retry: false,
     onSuccess: (data) => {
       stateContext.dispatch({ type: "SET_USER", payload: data });
     },
@@ -41,29 +41,42 @@ const Auth = () => {
     resolver: zodResolver(loginSchema),
   });
 
-  const { mutate: loginUser, isLoading } = useMutation(
-    (userData: LoginInput) => loginUserFn(userData),
-    {
-      onSuccess: (res) => {
-        console.log(res);
-        query.refetch();
-        toast.success("You successfully logged in");
-        //navigate(from);
+  const { mutate: loginUser } = useMutation((userData: LoginInput) =>
+    toast.promise(loginUserFn(userData), {
+      pending: "Logging in...",
+      success: {
+        render: () => {
+          query.mutate();
+          navigate(from);
+          return "Logged in!";
+        },
       },
-      onError: (error: any) => {
-        if (Array.isArray((error as any).response.data.error)) {
-          (error as any).response.data.error.forEach((el: any) =>
-            toast.error(el.message, {
-              position: "top-right",
-            })
-          );
-        } else {
-          toast.error((error as any).response.data.message, {
-            position: "top-right",
-          });
-        }
+      error: {
+        render: (error) => {
+          console.log(error);
+          return (error as any).data.response.data.message as string;
+        },
       },
-    }
+    })
+  );
+
+  const { mutate: registerUser } = useMutation((userData: LoginInput) =>
+    toast.promise(signUpUserFn(userData), {
+      pending: "Creating your account...",
+      success: {
+        render: () => {
+          query.mutate();
+          navigate(from);
+          return "Succes! you're now logged in!";
+        },
+      },
+      error: {
+        render: (error) => {
+          console.log(error);
+          return (error as any).data.response.data.message as string;
+        },
+      },
+    })
   );
 
   const {
@@ -79,10 +92,8 @@ const Auth = () => {
     }
   }, [isSubmitSuccessful]);
 
-  const onSubmitHandler: SubmitHandler<LoginInput> = (values) => {
-    console.log(values);
-    loginUser(values);
-  };
+  const onSubmitHandler: SubmitHandler<LoginInput> = (values) =>
+    toggleRegister ? registerUser(values) : loginUser(values);
 
   return (
     <>
@@ -94,16 +105,20 @@ const Auth = () => {
             alt="Your Company"
           />
           <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-white">
-            Sign in to your account
+            {toggleRegister
+              ? "Create a new account"
+              : "Sign in to your account"}
           </h2>
           <p className="mt-2 text-center text-sm text-white">
             Or{" "}
-            <a
-              href="#"
+            <button
               className="font-medium text-blue-500 hover:text-blue-600"
+              onClick={() => setToggleRegister((val) => !val)}
             >
-              Create a new account
-            </a>
+              {!toggleRegister
+                ? "Create a new account"
+                : "Sign in to your account"}
+            </button>
           </p>
         </div>
 
@@ -182,7 +197,7 @@ const Auth = () => {
                   type="submit"
                   className="flex w-full justify-center rounded-md border border-transparent bg-blue-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
-                  Sign in
+                  {toggleRegister ? "Register" : "Sign in"}
                 </button>
               </div>
             </form>

@@ -8,11 +8,6 @@ export const authApi = axios.create({
   withCredentials: true,
 });
 
-export const refreshAccessTokenFn = async () => {
-  const response = await authApi.get<ILoginResponse>("auth/refresh");
-  return response.data;
-};
-
 authApi.interceptors.response.use(
   (response) => {
     return response;
@@ -25,9 +20,17 @@ authApi.interceptors.response.use(
       await refreshAccessTokenFn();
       return authApi(originalRequest);
     }
+    if (error.response.data.message.includes("not refresh")) {
+      document.location.href = "/login";
+    }
     return Promise.reject(error);
   }
 );
+
+export const refreshAccessTokenFn = async () => {
+  const response = await authApi.post<ILoginResponse>("auth/refresh");
+  return response.data;
+};
 
 export const signUpUserFn = async (user: {
   email: string;
@@ -47,6 +50,11 @@ export const loginUserFn = async (user: {
 
 export const getMeFn = async () => {
   const response = await authApi.get<IUser>("user/me");
+  return response.data;
+};
+
+export const logoutUserFn = async () => {
+  const response = await authApi.delete("auth/logout");
   return response.data;
 };
 

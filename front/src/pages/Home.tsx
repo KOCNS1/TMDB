@@ -1,13 +1,11 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
-import Header from "../components/Header";
+import Popular from "../components/tmdb/Popular";
 
 type Props = {};
 
 const Home = (props: Props) => {
   return (
     <div>
-      <p>HOME PAGE</p>
+      <Popular />
     </div>
   );
 };
