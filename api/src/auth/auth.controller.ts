@@ -137,11 +137,33 @@ export class AuthController {
    */
 
   @Post('/google/login')
-  async loginGoogleUser(@Body() body: GoogleTokenDto) {
+  async loginGoogleUser(
+    @Body() body: GoogleTokenDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const result = await this.authService.googleAuthService.loginGoogleUser(
       body.token,
     );
     if (result) {
+      response.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        sameSite: 'none',
+        secure: true,
+      });
+
+      response.cookie('accessToken', result.accessToken, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 900000),
+        sameSite: 'none',
+        secure: true,
+      });
+      response.cookie('logged_in', true, {
+        httpOnly: false,
+        expires: new Date(Date.now() + 900000),
+        sameSite: 'none',
+        secure: true,
+      });
       return result;
     } else {
       throw new HttpException(
@@ -152,11 +174,33 @@ export class AuthController {
   }
 
   @Post('/google/register')
-  async registerGoogleUser(@Body() body: GoogleTokenDto) {
+  async registerGoogleUser(
+    @Body() body: GoogleTokenDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
     const result = await this.authService.googleAuthService.registerGoogleUser(
       body.token,
     );
     if (result) {
+      response.cookie('refreshToken', result.refreshToken, {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 * 7,
+        sameSite: 'none',
+        secure: true,
+      });
+
+      response.cookie('accessToken', result.accessToken, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 900000),
+        sameSite: 'none',
+        secure: true,
+      });
+      response.cookie('logged_in', true, {
+        httpOnly: false,
+        expires: new Date(Date.now() + 900000),
+        sameSite: 'none',
+        secure: true,
+      });
       return result;
     } else {
       throw new HttpException(

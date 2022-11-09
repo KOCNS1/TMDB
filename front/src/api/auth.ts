@@ -58,4 +58,11 @@ export const logoutUserFn = async () => {
   return response.data;
 };
 
+export const LoginWithGoogleFn = async (token: string) => {
+  const response = await authApi.post<ILoginResponse>("auth/google/login", {
+    token,
+  });
+  return response.data;
+};
+
 authApi.defaults.headers.common["Content-Type"] = "application/json";

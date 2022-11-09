@@ -29,10 +29,11 @@ export class GoogleAuthService {
     const email = payload.email;
     const user = await this.userService.user({ email });
     if (!user) {
-      throw new HttpException(
-        'Warning: No user found, please register first',
-        HttpStatus.NOT_FOUND,
-      );
+      // throw new HttpException(
+      //   'Warning: No user found, please register first',
+      //   HttpStatus.NOT_FOUND,
+      // );
+      return this.registerGoogleUser(token);
     }
     return this.tokenService.newRefreshAndAccessToken(user);
   }
