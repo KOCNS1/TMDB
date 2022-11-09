@@ -18,6 +18,8 @@ authApi.interceptors.response.use(
     if (errMessage.includes("Unauthorized") && !originalRequest._retry) {
       originalRequest._retry = true;
       await refreshAccessTokenFn();
+
+      originalRequest.headers = { ...originalRequest.headers };
       return authApi(originalRequest);
     }
     if (error.response.data.message.includes("not refresh")) {

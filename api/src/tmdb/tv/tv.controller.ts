@@ -11,7 +11,7 @@ export class TvController {
     return this.tvService.getPopular();
   }
 
-  @Get('details/:id')
+  @Get('detail/:id')
   async getDetails(
     @Param('id') id: number,
     @Body('appendToResponse') appendToResponse?: AppendToResponseTv[],

@@ -68,12 +68,18 @@ export class TmdbAuthService {
 
   async linkTmdb(userId: string, requestToken: string) {
     try {
-      const tmdbToken = await this.getAccessToken(requestToken);
-      return await this.tmdbTokenService.createTmdbToken({
+      const hasToken = await this.tmdbTokenService.getTmdbToken({
         userId: +userId,
-        token: tmdbToken.access_token,
-        tmdbId: tmdbToken.account_id,
       });
+      if (hasToken) return hasToken;
+      else {
+        const tmdbToken = await this.getAccessToken(requestToken);
+        return await this.tmdbTokenService.createTmdbToken({
+          userId: +userId,
+          token: tmdbToken.access_token,
+          tmdbId: tmdbToken.account_id,
+        });
+      }
     } catch (error) {
       throw new HttpException(error.message, HttpStatus.NOT_ACCEPTABLE);
     }

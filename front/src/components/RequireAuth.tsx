@@ -14,7 +14,7 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
     retry: 1,
 
     onSuccess: (data) => {
-      stateContext.dispatch({ type: "SET_USER", payload: data });
+      stateContext.dispatch({ type: "SET_USER", payload: { authUser: data } });
     },
   });
 

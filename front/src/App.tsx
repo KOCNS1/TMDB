@@ -24,7 +24,7 @@ const App = (props: Props) => {
     refetchOnWindowFocus: false,
     retry: false,
     onSuccess: (data) => {
-      stateContext.dispatch({ type: "SET_USER", payload: data });
+      stateContext.dispatch({ type: "SET_USER", payload: { authUser: data } });
     },
   });
 

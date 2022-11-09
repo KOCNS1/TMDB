@@ -4,11 +4,16 @@ import { IUser } from "../../api/types";
 type State = {
   authUser: IUser | null;
   loggedIn: boolean;
+  tmdbToken: boolean | null;
 };
 
 type Action = {
   type: string;
-  payload: IUser | null;
+  payload: {
+    authUser: IUser | null;
+    loggedIn?: boolean;
+    tmdbToken?: boolean;
+  };
 };
 
 type Dispatch = (action: Action) => void;
@@ -16,6 +21,7 @@ type Dispatch = (action: Action) => void;
 const initialState: State = {
   authUser: null,
   loggedIn: false,
+  tmdbToken: false,
 };
 
 type StateContextProviderProps = { children: React.ReactNode };
@@ -29,7 +35,7 @@ const stateReducer = (state: State, action: Action) => {
     case "SET_USER": {
       return {
         ...state,
-        authUser: action.payload,
+        authUser: action.payload.authUser,
         loggedIn: action.payload ? true : false,
       };
     }
@@ -38,6 +44,12 @@ const stateReducer = (state: State, action: Action) => {
         ...state,
         authUser: null,
         loggedIn: false,
+      };
+    }
+    case "SET_TMDB_TOKEN": {
+      return {
+        ...state,
+        tmdbToken: Boolean(action.payload.tmdbToken),
       };
     }
     default: {

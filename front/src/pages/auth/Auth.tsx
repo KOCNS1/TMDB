@@ -34,7 +34,7 @@ const Auth = () => {
   const query = useMutation(["authUser"], getMeFn, {
     retry: false,
     onSuccess: (data) => {
-      stateContext.dispatch({ type: "SET_USER", payload: data });
+      stateContext.dispatch({ type: "SET_USER", payload: { authUser: data } });
     },
   });
 
