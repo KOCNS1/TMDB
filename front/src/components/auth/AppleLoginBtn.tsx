@@ -1,6 +1,10 @@
-import React from "react";
+import { UseMutationResult } from "@tanstack/react-query";
+import { IUser } from "../../api/types";
 
-type Props = {};
+type Props = {
+  query: UseMutationResult<IUser, unknown, void, unknown>;
+  from: string;
+};
 
 const AppleLoginBtn = (props: Props) => {
   return (

@@ -216,9 +216,9 @@ const Auth = () => {
               </div>
 
               <div className="mt-6 grid grid-cols-2 gap-3">
-                <GoogleLoginBtn />
+                <GoogleLoginBtn query={query} from={from} />
 
-                <AppleLoginBtn />
+                <AppleLoginBtn query={query} from={from} />
               </div>
             </div>
           </div>

@@ -1,18 +1,28 @@
+import { UseMutationResult } from "@tanstack/react-query";
 import { useGoogleLogin } from "react-google-login";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { LoginWithGoogleFn } from "../../api/auth";
+import { IUser } from "../../api/types";
 
-type Props = {};
-
-const onSuccess = async (res: any) => {
-  const response = await LoginWithGoogleFn(res.tokenId);
-  toast.success("Logged in with google!");
-};
-const onFailure = (err: any) => {
-  toast.error("Failed to login with google!");
+type Props = {
+  query: UseMutationResult<IUser, unknown, void, unknown>;
+  from: string;
 };
 
-const GoogleLoginBtn = (props: Props) => {
+const GoogleLoginBtn = ({ query, from }: Props) => {
+  const navigate = useNavigate();
+
+  const onSuccess = async (res: any) => {
+    const response = await LoginWithGoogleFn(res.tokenId);
+    query.mutate();
+    navigate(from);
+    toast.success("Logged in with google!");
+  };
+  const onFailure = (err: any) => {
+    toast.error("Failed to login with google!");
+  };
+
   const { signIn, loaded } = useGoogleLogin({
     onSuccess,
     onFailure,
