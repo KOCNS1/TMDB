@@ -1,3 +1,4 @@
+import { Search } from "../types/search";
 import { authApi } from "./auth";
 
 export const getPopularMovies = async () => {
@@ -16,5 +17,14 @@ export const getDetails = async (type: string, id: number) => {
 
 export const getPopularTvShows = async () => {
   const response = await authApi.get("/tv/popular");
+  return response.data;
+};
+
+export const getSearchResults = async (query: string) => {
+  const response = await authApi.get<Search>("/search", {
+    params: {
+      query,
+    },
+  });
   return response.data;
 };

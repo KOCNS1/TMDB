@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import { RequireAuth } from "../components/RequireAuth";
+import Search from "../components/Search";
 import ContentDetails from "../components/tmdb/details/ContentDetails";
 import Auth from "../pages/auth/Auth";
 import Home from "../pages/Home";
@@ -20,7 +21,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/movies",
-        element: <div>404</div>,
+        element: <Search />,
       },
       {
         path: "/tv",

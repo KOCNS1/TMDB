@@ -21,7 +21,7 @@ authApi.interceptors.response.use(
       return authApi(originalRequest);
     }
     if (error.response.data.message.includes("not refresh")) {
-      document.location.href = "/login";
+      document.location.href = "/auth";
     }
     return Promise.reject(error);
   }
