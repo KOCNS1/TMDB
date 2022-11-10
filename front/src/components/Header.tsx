@@ -17,7 +17,11 @@ const navigation = [
   { name: "TV Shows", href: "/tv" },
 ];
 
-const Header = () => {
+type Props = {
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+const Header = ({ setOpen }: Props) => {
   const { state, dispatch } = useStateContext();
 
   const handleLogout = async () => {
@@ -58,7 +62,10 @@ const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
+              <div
+                className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end"
+                onClick={() => setOpen(true)}
+              >
                 <div className="w-full max-w-lg lg:max-w-xs">
                   <label htmlFor="search" className="sr-only">
                     Search

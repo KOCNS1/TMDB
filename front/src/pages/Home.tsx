@@ -1,4 +1,4 @@
-import Popular from "../components/tmdb/Popular";
+import Popular from "../components/tmdb/popular/Popular";
 
 type Props = {};
 

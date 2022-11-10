@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppendToResponseTv } from 'src/types/api-interfaces';
 import { TvService } from './tv.service';
 
@@ -11,7 +11,7 @@ export class TvController {
     return this.tvService.getPopular();
   }
 
-  @Get('detail/:id')
+  @Post('detail/:id')
   async getDetails(
     @Param('id') id: number,
     @Body('appendToResponse') appendToResponse?: AppendToResponseTv[],

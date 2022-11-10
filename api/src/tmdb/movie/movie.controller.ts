@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { AppendToResponseTv } from 'src/types/api-interfaces';
 import { MovieService } from './movie.service';
 
@@ -11,11 +11,12 @@ export class MovieController {
     return this.movieService.getPopular();
   }
 
-  @Get('detail/:id')
+  @Post('detail/:id')
   async getDetails(
     @Param('id') id: number,
     @Body('appendToResponse') appendToResponse?: AppendToResponseTv[],
   ) {
+    console.log(appendToResponse);
     return this.movieService.getDetails(id, appendToResponse);
   }
 }

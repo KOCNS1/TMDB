@@ -49,7 +49,7 @@ const App = (props: Props) => {
 
   return (
     <div className="App w-11/12 m-auto flex flex-col h-screen">
-      <Header />
+      <Header setOpen={setOpenSearch} />
       <main className="flex-1">
         <Outlet />
         {openSearch && <Search open={openSearch} setOpen={setOpenSearch} />}

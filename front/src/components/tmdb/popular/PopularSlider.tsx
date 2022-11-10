@@ -1,8 +1,6 @@
-import React from "react";
-// import { RadialProgress } from "react-daisyui";
 import { Link } from "react-router-dom";
-import { Movie, TVDetails } from "../../types/api-interfaces";
 import { RadialProgress } from "react-daisyui";
+import { Movie, TVDetails } from "../../../types/api-interfaces";
 
 export const isMovie = (content: Movie | TVDetails): content is Movie => {
   return (content as Movie).title !== undefined;

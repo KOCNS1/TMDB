@@ -1,3 +1,4 @@
+import { Movie, TVDetails } from "../types/api-interfaces";
 import { Search } from "../types/search";
 import { authApi } from "./auth";
 
@@ -7,11 +8,12 @@ export const getPopularMovies = async () => {
 };
 
 export const getDetails = async (type: string, id: number) => {
-  const response = await authApi.get(`/${type}/detail/${id}`, {
-    data: {
-      append_to_response: ["videos"],
-    },
-  });
+  const response = await authApi.post<Movie | TVDetails>(
+    `/${type}/detail/${id}`,
+    {
+      appendToResponse: ["videos", "casts"],
+    }
+  );
   return response.data;
 };
 

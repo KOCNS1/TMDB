@@ -2,8 +2,10 @@ import { useQuery } from "@tanstack/react-query";
 import { Button, RadialProgress } from "react-daisyui";
 import { useParams } from "react-router-dom";
 import { getDetails } from "../../../api/tmdb.api";
-import { Movie, TVDetails } from "../../../types/api-interfaces";
+import { Movie, Result, TVDetails } from "../../../types/api-interfaces";
 import FullScreenLoader from "../../ui/FullScreenLoader";
+import CastSlider from "../cast/Cast";
+import ReactPlayer from "react-player";
 
 type Props = { type: "movie" | "tv"; id: string };
 
@@ -204,15 +206,14 @@ const ContentDetails = () => {
                   </label>
 
                   <h3 className="text-lg font-bold ml-3 py-3">Bande-annonce</h3>
-                  {/* <iframe
-                // type="text/html"
-                // style="background-color: #000"
-                className="w-full h-[50vh]"
-                src="{{ getYoutubeUrl() }}"
-                frameborder="0"
-                allowfullscreen=""
-                data-dashlane-frameid="1171"
-              ></iframe> */}
+                  <ReactPlayer
+                    url={`https://www.youtube.com/watch?v=${
+                      (data.videos.results.slice(-1).pop() as Result).key
+                    }`}
+                    width="100%"
+                    controls={true}
+                    height="50vh"
+                  />
                 </label>
               </label>
             </div>
@@ -232,6 +233,7 @@ const ContentDetails = () => {
           </div>
         </div>
       </div>
+      <CastSlider content={data.casts.cast.slice(0, 10)} />
     </div>
   );
 };

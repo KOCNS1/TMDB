@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { getPopularMovies, getPopularTvShows } from "../../api/tmdb.api";
-import { Movie, Tv, TVDetails } from "../../types/api-interfaces";
+import { getPopularMovies, getPopularTvShows } from "../../../api/tmdb.api";
+import { Movie, Tv, TVDetails } from "../../../types/api-interfaces";
 import PopularSlider from "./PopularSlider";
 
 const Popular = () => {
