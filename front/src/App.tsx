@@ -45,12 +45,10 @@ const App = (props: Props) => {
     };
   }, []);
 
-  //if (openSearch) return <Search open={openSearch} setOpen={setOpenSearch} />;
-
   return (
-    <div className="App w-11/12 m-auto flex flex-col h-screen">
+    <div className="App w-11/12 mx-auto flex flex-col min-h-screen">
       <Header setOpen={setOpenSearch} />
-      <main className="flex-1">
+      <main className="flex-1 h-full">
         <Outlet />
         {openSearch && <Search open={openSearch} setOpen={setOpenSearch} />}
       </main>

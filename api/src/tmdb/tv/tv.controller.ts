@@ -18,4 +18,9 @@ export class TvController {
   ) {
     return this.tvService.getDetails(id, appendToResponse);
   }
+
+  @Get(':id/similar')
+  async getSimilar(@Param('id') id: number) {
+    return this.tvService.getSimilar(id);
+  }
 }

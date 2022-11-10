@@ -19,4 +19,9 @@ export class MovieController {
     console.log(appendToResponse);
     return this.movieService.getDetails(id, appendToResponse);
   }
+
+  @Get(':id/similar')
+  async getSimilar(@Param('id') id: number) {
+    return this.movieService.getSimilar(id);
+  }
 }

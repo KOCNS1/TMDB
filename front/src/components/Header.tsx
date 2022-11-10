@@ -2,7 +2,7 @@ import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useStateContext } from "../context/auth/auth.context";
 import { logoutUserFn } from "../api/auth";
 
@@ -23,10 +23,12 @@ type Props = {
 
 const Header = ({ setOpen }: Props) => {
   const { state, dispatch } = useStateContext();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     await logoutUserFn();
     dispatch({ type: "LOGOUT", payload: { authUser: null } });
+    navigate("/");
   };
   return (
     <Disclosure

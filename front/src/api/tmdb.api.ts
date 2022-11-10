@@ -1,4 +1,9 @@
-import { Movie, TVDetails } from "../types/api-interfaces";
+import {
+  Movie,
+  SimilarMovies,
+  TVDetails,
+  GenericListResult,
+} from "../types/api-interfaces";
 import { Search } from "../types/search";
 import { authApi } from "./auth";
 
@@ -63,6 +68,13 @@ export const verifyTmdbToken = async () => {
 export const unlinkTmdb = async () => {
   const response = await authApi.delete<{ valid: boolean }>(
     "http://localhost:3333/api/auth/tmdb/unlink"
+  );
+  return response.data;
+};
+
+export const getSimilar = async (type: string, id: number) => {
+  const response = await authApi.get<GenericListResult<SimilarMovies>>(
+    `/${type}/${id}/similar`
   );
   return response.data;
 };

@@ -5,6 +5,7 @@ import {
   GenericListResult,
   Movie,
   PopularInput,
+  SimilarMovies,
 } from 'src/types/api-interfaces';
 
 @Injectable()
@@ -48,5 +49,22 @@ export class MovieService {
     );
 
     return data;
+  }
+
+  async getSimilar(id: number): Promise<GenericListResult<SimilarMovies>> {
+    const { data } = await this.httpService.axiosRef.get<
+      GenericListResult<SimilarMovies>
+    >(`https://api.themoviedb.org/3/movie/${id}/similar`, {
+      params: {
+        ...this.httpService.axiosRef.defaults.params,
+      },
+    });
+
+    return {
+      page: data.page,
+      total_pages: data.total_pages,
+      total_results: data.total_results,
+      results: data.results,
+    };
   }
 }

@@ -183,7 +183,7 @@ const Search = ({ open, setOpen }: Props) => {
                             <div className="flex-none p-4 text-center">
                               <img
                                 src={`https://image.tmdb.org/t/p/w220_and_h330_face/${
-                                  activeOption.poster_path as string
+                                  activeOption.backdrop_path as string
                                 }`}
                                 alt=""
                                 className="mx-auto h-16 w-16 rounded-full"

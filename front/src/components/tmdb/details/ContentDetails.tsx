@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, RadialProgress } from "react-daisyui";
 import { useParams } from "react-router-dom";
-import { getDetails } from "../../../api/tmdb.api";
+import { getDetails, getSimilar } from "../../../api/tmdb.api";
 import { Movie, Result, TVDetails } from "../../../types/api-interfaces";
 import FullScreenLoader from "../../ui/FullScreenLoader";
 import CastSlider from "../cast/Cast";
 import ReactPlayer from "react-player";
+import SimilarMoviesComponent from "../similarMovies/SimilarMovies";
 
 type Props = { type: "movie" | "tv"; id: string };
 
@@ -28,11 +29,16 @@ const ContentDetails = () => {
 
   if (!type || !id) return <div>Not found</div>;
 
-  const { data, isLoading } = useQuery([`tmdb.${type}.getDetails`], () =>
+  const { data, isLoading } = useQuery([`tmdb.${type}.getDetails`, id], () =>
     getDetails(type, +id)
   );
 
-  if (!data || isLoading) return <FullScreenLoader />;
+  const similarMovies = useQuery([`tmdb.${type}.getSimilarMovies`, id], () =>
+    getSimilar(type, +id)
+  );
+
+  if (!data || isLoading || similarMovies.isLoading)
+    return <FullScreenLoader />;
 
   return (
     <div className="mt-4">
@@ -206,14 +212,16 @@ const ContentDetails = () => {
                   </label>
 
                   <h3 className="text-lg font-bold ml-3 py-3">Bande-annonce</h3>
-                  <ReactPlayer
-                    url={`https://www.youtube.com/watch?v=${
-                      (data.videos.results.slice(-1).pop() as Result).key
-                    }`}
-                    width="100%"
-                    controls={true}
-                    height="50vh"
-                  />
+                  {data.videos.results.length > 0 && (
+                    <ReactPlayer
+                      url={`https://www.youtube.com/watch?v=${
+                        (data.videos.results.slice(-1).pop() as Result).key
+                      }`}
+                      width="100%"
+                      controls={true}
+                      height="50vh"
+                    />
+                  )}
                 </label>
               </label>
             </div>
@@ -233,7 +241,14 @@ const ContentDetails = () => {
           </div>
         </div>
       </div>
-      <CastSlider content={data.casts.cast.slice(0, 10)} />
+      {data.casts && <CastSlider content={data.casts.cast.slice(0, 10)} />}
+
+      {similarMovies.data && (
+        <SimilarMoviesComponent
+          content={similarMovies.data.results}
+          type={type}
+        />
+      )}
     </div>
   );
 };
