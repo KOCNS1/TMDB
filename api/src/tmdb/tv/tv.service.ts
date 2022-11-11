@@ -37,8 +37,6 @@ export class TvService {
     id: number,
     appendToResponse?: AppendToResponseTv[],
   ): Promise<TVDetails> {
-    console.log(appendToResponse);
-
     const { data } = await this.httpService.axiosRef.get<TVDetails>(
       `https://api.themoviedb.org/3/tv/${id}`,
       {

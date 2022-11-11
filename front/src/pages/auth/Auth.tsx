@@ -54,7 +54,6 @@ const Auth = () => {
       },
       error: {
         render: (error) => {
-          console.log(error);
           return (error as any).data.response.data.message as string;
         },
       },
@@ -73,7 +72,6 @@ const Auth = () => {
       },
       error: {
         render: (error) => {
-          console.log(error);
           return (error as any).data.response.data.message as string;
         },
       },

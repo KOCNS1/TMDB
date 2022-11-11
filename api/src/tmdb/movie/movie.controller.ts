@@ -16,7 +16,6 @@ export class MovieController {
     @Param('id') id: number,
     @Body('appendToResponse') appendToResponse?: AppendToResponseTv[],
   ) {
-    console.log(appendToResponse);
     return this.movieService.getDetails(id, appendToResponse);
   }
 

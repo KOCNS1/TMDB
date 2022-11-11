@@ -27,7 +27,6 @@ export class TmdbAuthService {
       );
       return request_token;
     } catch (error) {
-      console.log(error.message);
       throw new HttpException("Can't create request token from TMBD", 500);
     }
   }
@@ -58,7 +57,7 @@ export class TmdbAuthService {
       );
       return { access_token, account_id };
     } catch (error) {
-      console.log(error.message);
+      throw new HttpException("Can't get access token from TMBD", 500);
     }
   }
 

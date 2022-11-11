@@ -217,7 +217,6 @@ export class AuthController {
   // Gives the user the request token to validate
   @Post('/tmdb/request-token')
   async linkTmdbUser(@Query('redirect_to') redirectUrl?: string) {
-    console.log('redirectUrl', redirectUrl);
     return await this.authService.tmdbAuthService.connectTmdb(redirectUrl);
   }
 

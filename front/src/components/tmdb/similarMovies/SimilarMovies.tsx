@@ -16,7 +16,9 @@ const getColor = (value: number) => {
 const SimilarMoviesComponent = ({ content, type }: Props) => {
   return (
     <div className="flex flex-col gap-6 mt-6">
-      <p className="text-white text-2xl font-bold">Similar {type}: </p>
+      <p className="text-white text-2xl font-bold capitalize">
+        Similar {type}s:
+      </p>
       <div className="carousel carousel-center w-full space-x-4 rounded-box text-white">
         {content.map((item) => (
           <div className="carousel-item w-52" key={item.id}>
