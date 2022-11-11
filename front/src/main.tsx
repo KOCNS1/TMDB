@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import router from "./navigation/router";
+import { getRouter } from "./navigation/router";
 import { StateContextProvider } from "./context/auth/auth.context";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
@@ -15,7 +15,7 @@ ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
     <QueryClientProvider client={queryClient}>
       <StateContextProvider>
-        <RouterProvider router={router} />
+        <RouterProvider router={getRouter(queryClient)} />
         <ToastContainer
           position="top-right"
           autoClose={5000}

@@ -1,17 +1,65 @@
-import { useQuery } from "@tanstack/react-query";
+import {
+  type QueryClient,
+  useQueries,
+  useQuery,
+  QueryKey,
+} from "@tanstack/react-query";
 import { useState } from "react";
+import { useLoaderData } from "react-router-dom";
 import { getPopularMovies, getPopularTvShows } from "../../../api/tmdb.api";
-import { Movie, Tv, TVDetails } from "../../../types/api-interfaces";
+import {
+  GenericListResult,
+  Movie,
+  TVDetails,
+} from "../../../types/api-interfaces";
 import PopularSlider from "./PopularSlider";
+
+export const getPopulaQuery = () => [
+  {
+    queryKey: ["tmdb.movie.getAll"],
+    queryFn: () => getPopularMovies(),
+  },
+  {
+    queryKey: ["tmdb.tv.getAll"],
+    queryFn: () => getPopularTvShows(),
+  },
+];
+
+export const loader = (queryClient: QueryClient) => () => {
+  const queries = getPopulaQuery();
+  const queriesData = queries.map((query) =>
+    queryClient.getQueryData<GenericListResult<Movie | TVDetails>>({
+      queryKey: query.queryKey,
+    } as unknown as QueryKey)
+  );
+  return queriesData.length > 0 && !queriesData.includes(undefined)
+    ? (queriesData as GenericListResult<Movie | TVDetails>[])
+    : Promise.all(
+        queries.map((query) =>
+          queryClient.fetchQuery<GenericListResult<Movie | TVDetails>>({
+            queryKey: query.queryKey as string[],
+            queryFn: query.queryFn as any,
+            staleTime: 1000 * 2,
+          })
+        )
+      );
+};
 
 const Popular = () => {
   const [showFilm, setShowFilm] = useState(true);
-  const movies = useQuery(["tmdb.movie.getAll"], getPopularMovies);
-  const tv = useQuery(["tmdb.tv.getAll"], getPopularTvShows);
 
-  if (movies.isLoading || tv.isLoading) {
-    return <div>Loading...</div>;
-  }
+  const [initalMovies, initialTvs] = useLoaderData() as Awaited<
+    ReturnType<ReturnType<typeof loader>>
+  >;
+
+  const movies = useQuery(["tmdb.movie.getAll"], getPopularMovies, {
+    staleTime: 1000 * 2,
+    initialData: initalMovies,
+  });
+  const tv = useQuery(["tmdb.tv.getAll"], getPopularTvShows, {
+    staleTime: 1000 * 2,
+    initialData: initialTvs,
+  });
 
   return (
     <div>

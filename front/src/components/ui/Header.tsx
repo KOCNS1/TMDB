@@ -3,8 +3,8 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { useStateContext } from "../context/auth/auth.context";
-import { logoutUserFn } from "../api/auth";
+import { useStateContext } from "../../context/auth/auth.context";
+import { logoutUserFn } from "../../api/auth";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");

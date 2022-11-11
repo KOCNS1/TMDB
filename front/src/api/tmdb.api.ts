@@ -8,7 +8,9 @@ import { Search } from "../types/search";
 import { authApi } from "./auth";
 
 export const getPopularMovies = async () => {
-  const response = await authApi.get("/movie/popular");
+  const response = await authApi.get<GenericListResult<Movie>>(
+    "/movie/popular"
+  );
   return response.data;
 };
 
@@ -23,7 +25,9 @@ export const getDetails = async (type: string, id: number) => {
 };
 
 export const getPopularTvShows = async () => {
-  const response = await authApi.get("/tv/popular");
+  const response = await authApi.get<GenericListResult<TVDetails>>(
+    "/tv/popular"
+  );
   return response.data;
 };
 
