@@ -2,7 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStateContext } from "../../../context/auth/auth.context";
 import { logoutUserFn } from "../../../api/auth";
-import SearchBar from "../SearchBar";
+import SearchBar from "../SearchBar/SearchBar";
 import BurgerMenu from "./responsiveScreens/BurgerMenu";
 import BurgerMenuContent from "./responsiveScreens/BurgerMenuContent";
 import LargeScreenMenuContent from "./largeScreen/LargeScreenMenuContent";

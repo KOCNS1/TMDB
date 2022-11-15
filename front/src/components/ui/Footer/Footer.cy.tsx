@@ -1,6 +1,6 @@
 import Footer from "./Footer";
 
-describe("<Stepper>", () => {
+describe("<Footer>", () => {
   beforeEach(() => {
     cy.mount(<Footer />);
   });
