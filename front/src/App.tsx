@@ -1,19 +1,11 @@
-import {
-  type QueryClient,
-  QueryClientProvider,
-  useQuery,
-} from "@tanstack/react-query";
 import { Outlet } from "react-router-dom";
-import { getMeFn } from "./api/auth";
-import Footer from "./components/ui/Footer";
-import Header from "./components/ui/Header";
-import { useStateContext } from "./context/auth/auth.context";
+import Footer from "./components/ui/Footer/Footer";
+import Header from "./components/ui/Header/Header";
 import { gapi } from "gapi-script";
 import { useEffect, useState } from "react";
-import Search from "./components/Search";
+import Search from "./components/tmdb/search/Search";
 
 const App = () => {
-  const stateContext = useStateContext();
   const [openSearch, setOpenSearch] = useState(false);
 
   const handler = (e: KeyboardEvent): void => {
@@ -21,14 +13,6 @@ const App = () => {
       setOpenSearch(true);
     }
   };
-
-  // useQuery(["auth.me"], getMeFn, {
-  //   refetchOnWindowFocus: false,
-  //   retry: false,
-  //   onSuccess: (data) => {
-  //     stateContext.dispatch({ type: "SET_USER", payload: { authUser: data } });
-  //   },
-  // });
 
   useEffect(() => {
     const initClient = () => {

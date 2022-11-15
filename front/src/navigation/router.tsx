@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import App from "../App";
 import Validate from "../components/auth/Validate";
-import { RequireAuth } from "../components/RequireAuth";
+import { RequireAuth } from "../components/auth/RequireAuth";
 import ContentDetails from "../pages/tmdb/details/ContentDetails";
 import Auth from "../pages/auth/Auth";
 import Home from "../pages/Home";

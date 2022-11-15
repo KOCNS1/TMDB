@@ -3,7 +3,7 @@ import { Button, RadialProgress } from "react-daisyui";
 import { useParams } from "react-router-dom";
 import { getDetails, getSimilar } from "../../../api/tmdb.api";
 import { Movie, Result, TVDetails } from "../../../types/api-interfaces";
-import FullScreenLoader from "../../../components/ui/FullScreenLoader";
+import FullScreenLoader from "../../../components/ui/FullScreenLoader/FullScreenLoader";
 import CastSlider from "../../../components/tmdb/cast/Cast";
 import ReactPlayer from "react-player";
 import SimilarMoviesComponent from "../../../components/tmdb/similarMovies/SimilarMovies";

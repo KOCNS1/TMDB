@@ -1,9 +1,9 @@
 import { Navigate, useLocation } from "react-router-dom";
-import { useStateContext } from "../context/auth/auth.context";
+import { useStateContext } from "../../context/auth/auth.context";
 import { useCookies } from "react-cookie";
 import { useQuery } from "@tanstack/react-query";
-import { getMeFn } from "../api/auth";
-import FullScreenLoader from "./ui/FullScreenLoader";
+import { getMeFn } from "../../api/auth";
+import FullScreenLoader from "../ui/FullScreenLoader/FullScreenLoader";
 
 export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const [cookies] = useCookies(["logged_in"]);

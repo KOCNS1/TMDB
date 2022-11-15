@@ -4,10 +4,10 @@ import { MagnifyingGlassIcon } from "@heroicons/react/20/solid";
 import { VideoCameraSlashIcon } from "@heroicons/react/24/outline";
 import { ChevronRightIcon } from "@heroicons/react/20/solid";
 import { useQuery } from "@tanstack/react-query";
-import useDebounce from "../hooks/useDebounce";
-import { getSearchResults } from "../api/tmdb.api";
-import { Result } from "../types/search";
-import FullScreenLoader from "./ui/FullScreenLoader";
+import useDebounce from "../../../hooks/useDebounce";
+import { getSearchResults } from "../../../api/tmdb.api";
+import { Result } from "../../../types/search";
+import FullScreenLoader from "../../ui/FullScreenLoader/FullScreenLoader";
 import { RadialProgress } from "react-daisyui";
 
 type Props = {
@@ -21,22 +21,6 @@ const getColor = (value: number) => {
   else if (value >= 0 && value <= 4) return " text-error";
 };
 
-const people = [
-  {
-    id: 1,
-    name: "Leslie Alexander",
-    phone: "1-493-747-9031",
-    email: "lesliealexander@example.com",
-    role: "Co-Founder / CEO",
-    url: "https://example.com",
-    profileUrl: "#",
-    imageUrl:
-      "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-  },
-];
-
-const recent = [people[0]];
-
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
 }
@@ -48,13 +32,6 @@ const Search = ({ open, setOpen }: Props) => {
   const recentMovies = useQuery(["movies.recent"], () =>
     getSearchResults("harry")
   );
-
-  const filteredPeople =
-    query === ""
-      ? []
-      : people.filter((person) => {
-          return person.name.toLowerCase().includes(query.toLowerCase());
-        });
 
   const searchContent = useQuery(
     ["search", debouncedFilter],

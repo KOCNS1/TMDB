@@ -68,7 +68,10 @@ const Footer = () => {
   return (
     <footer className="bg-gray-800 mb-2 rounded-xl shadow-md shadow-black drop-shadow-xl mt-auto">
       <div className="mx-auto max-w-7xl py-12 px-4 sm:px-6 md:flex md:items-center md:justify-between lg:px-8">
-        <div className="flex justify-center space-x-6 md:order-2">
+        <div
+          className="flex justify-center space-x-6 md:order-2"
+          data-cy="footer-social"
+        >
           {navigation.map((item) => (
             <a
               key={item.name}
