@@ -19,8 +19,8 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 16
-      - run: npm ci --legacy-peer-deps
-      - run: npm test
+        run: npm ci --legacy-peer-deps
+        run: npm test
 
       - name: Cypress run
         uses: cypress-io/github-action@v4

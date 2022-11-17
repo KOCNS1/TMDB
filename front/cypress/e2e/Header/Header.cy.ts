@@ -30,7 +30,7 @@ describe("Home Page", () => {
         cy.get("[data-cy=login]").click();
         cy.url().should("include", "/auth");
       });
-      it("should go back to the home page when logo is clicked", () => {
+      it("should go back to the home page when logo is clicked ", () => {
         cy.get("[data-cy=logo]").click();
         cy.url().should("include", "/");
       });
