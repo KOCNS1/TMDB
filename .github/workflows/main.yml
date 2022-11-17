@@ -15,11 +15,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Install node
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      - run: npm ci --legacy-peer-deps
+      - run: npm test
+
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
+          install: false
           build: npm run build
-          start: npm start
+          start: npm preview
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS.RECORD.KEY }}
           GITHUBTOKEN: ${{ secrets.GITHUB_TOKEN }}
