@@ -18,7 +18,7 @@ const BurgerMenuContent = ({ handleLogout }: { handleLogout: () => void }) => {
         <>
           <ResponsiveScreenNavButtons close={close} />
 
-          <div className="border-t border-gray-700 pt-4 pb-3">
+          <div className="border-t border-gray-700 pt-4 pb-3 ">
             {state.loggedIn ? (
               <>
                 <UserInfoResponsiveScreen />
