@@ -9,7 +9,11 @@ const BurgerMenuContent = ({ handleLogout }: { handleLogout: () => void }) => {
   const { state } = useStateContext();
 
   return (
-    <Disclosure.Panel className="lg:hidden">
+    <Disclosure.Panel
+      className="lg:hidden"
+      as="div"
+      data-cy="BurgerMenuContent"
+    >
       {({ close }) => (
         <>
           <ResponsiveScreenNavButtons close={close} />

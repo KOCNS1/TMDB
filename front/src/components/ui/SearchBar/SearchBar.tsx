@@ -5,7 +5,10 @@ type Props = {
 };
 
 const SearchBar = ({ setOpen }: Props) => (
-  <div className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end">
+  <div
+    className="flex flex-1 justify-center px-2 lg:ml-6 lg:justify-end"
+    data-cy="SearchBar"
+  >
     <div className="w-full max-w-lg lg:max-w-xs" onClick={() => setOpen(true)}>
       <label htmlFor="search" className="sr-only">
         Search

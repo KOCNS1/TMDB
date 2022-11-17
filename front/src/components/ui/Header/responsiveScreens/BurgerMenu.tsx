@@ -2,7 +2,7 @@ import { Disclosure } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
 const BurgerMenu = ({ open }: { open: boolean }) => (
-  <div className="flex lg:hidden">
+  <div className="flex lg:hidden" data-cy="BurgerMenu">
     {/* Mobile menu button */}
     <Disclosure.Button className="inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
       <span className="sr-only">Open main menu</span>

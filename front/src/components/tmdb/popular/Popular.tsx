@@ -66,6 +66,7 @@ const Popular = () => {
       <h2 className="text-xl text-white font-bold my-6">Popular</h2>
       <div className="flex gap-5 mb-6">
         <button
+          data-cy="switch"
           className="rounded-md border border-transparent bg-blue-500 py-2 px-6 text-base font-medium text-white shadow-md hover:bg-blue-600 shadow-black"
           onClick={() => setShowFilm((showFilm) => !showFilm)}
         >

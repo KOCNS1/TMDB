@@ -18,9 +18,16 @@ const getColor = (value: number) => {
 
 const PopularSlider = ({ content }: Props) => {
   return (
-    <div className="carousel carousel-center w-full space-x-4 rounded-box text-white">
+    <div
+      className="carousel carousel-center w-full space-x-4 rounded-box text-white"
+      data-cy="slider"
+    >
       {content.map((item) => (
-        <div className="carousel-item w-52" key={item.id}>
+        <div
+          className="carousel-item w-52"
+          key={item.id}
+          data-cy={isMovie(item) ? "movie-card" : "tv-card"}
+        >
           <div>
             <Link
               to={`/tmdb/details/${isMovie(item) ? "movie" : "tv"}/${item.id}`}

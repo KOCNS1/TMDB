@@ -3,7 +3,7 @@ import { classNames } from "../../../../utils/classNames";
 import { navigation } from "../Header";
 
 const LargeScreenNavButtons = () => (
-  <div className="hidden lg:ml-6 lg:block">
+  <div className="hidden lg:ml-6 lg:block" data-cy="LargeScreenNavButtons">
     <div className="flex space-x-4">
       {navigation.map((item) => (
         <NavLink

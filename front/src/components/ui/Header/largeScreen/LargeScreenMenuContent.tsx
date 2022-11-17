@@ -10,7 +10,7 @@ const LargeScreenMenuContent = ({
   const { state } = useStateContext();
 
   return (
-    <div className="hidden lg:ml-4 lg:block">
+    <div className="hidden lg:ml-4 lg:block" data-cy="LargeScreenMenuContent">
       {!state.loggedIn ? (
         <NavLink
           to={"/auth"}
