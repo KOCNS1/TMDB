@@ -26,7 +26,7 @@ describe("Home Page", () => {
       it("BurgerMenuContent should not exist", () => {
         cy.get("[data-cy=BurgerMenuContent]").should("not.exist");
       });
-      it("should redirect to auth route when login button is clicked ", () => {
+      it("should redirect to auth route when login button is clicked", () => {
         cy.get("[data-cy=login]").click();
         cy.url().should("include", "/auth");
       });
