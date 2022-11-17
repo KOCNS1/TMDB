@@ -46,7 +46,7 @@ describe("Home Page", () => {
       it("Logo should exist", () => {
         cy.get("[data-cy=logo]").should("exist");
       });
-      it("LargeScreenNavButtons shoud not be visible", () => {
+      it("LargeScreenNavButtons shoud not be visible ", () => {
         cy.get("[data-cy=LargeScreenNavButtons]").should("not.be.visible");
       });
       it("SearchBar should be visible", () => {
