@@ -1,7 +1,9 @@
 import axios from "axios";
 import { ILoginResponse, IUser } from "./types";
 
-const BASE_URL = "http://localhost:3333/api/";
+export const BASE_URL =
+  import.meta.env.VITE_SOME_KEY ||
+  "https://tmdb-api-production.up.railway.app/api/";
 
 export const authApi = axios.create({
   baseURL: BASE_URL,

@@ -1,16 +1,13 @@
 FROM node:16 as build
 
-WORKDIR /front
-
-COPY . .
+WORKDIR /usr/app
+COPY . /usr/app
 
 RUN npm ci --legacy-peer-deps
-
-COPY . ./front
 
 RUN npm run build
 
 FROM nginx:1.23.1-alpine
 EXPOSE 80
 COPY ./docker/nginx/conf.d/default.conf /etc/nginx/conf.d/default.conf
-COPY --from=build /front/dist /usr/share/nginx/html
+COPY --from=build /usr/app/dist /usr/share/nginx/html
