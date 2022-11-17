@@ -15,6 +15,7 @@ const LargeScreenMenuContent = ({
         <NavLink
           to={"/auth"}
           className="rounded-md border border-transparent bg-blue-500 py-2 px-6 text-base font-medium text-white shadow-md hover:bg-blue-600"
+          data-cy="login"
         >
           Login
         </NavLink>

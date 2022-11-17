@@ -31,6 +31,7 @@ const BurgerMenuContent = ({ handleLogout }: { handleLogout: () => void }) => {
                 to={"/auth"}
                 className="rounded-md w-96 text-center mx-auto block border border-transparent bg-blue-500 py-2 px-6 text-lg font-medium text-white shadow-md hover:bg-blue-600 shadow-black"
                 onClick={() => close()}
+                data-cy="login-responsive"
               >
                 Login
               </NavLink>
