@@ -20,8 +20,9 @@ jobs:
         with:
           node-version: 16
           install: npm ci --legacy-peer-deps
-          build: npm run build
-          start: npm preview
+          test: npm run cy:e2e
+          # build: npm run build
+          # start: npm preview
           # run: npm test
 
       - name: Cypress run

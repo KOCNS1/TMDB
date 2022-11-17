@@ -10,9 +10,9 @@
     "preview": "vite preview",
     "cy:open-e2e": "cypress open --e2e --browser chrome",
     "cy:open-unit": "cypress open --component --browser chrome",
-    "cy:run-e2e": "cypress run --e2e",
+    "cy:run-e2e": "cypress run --e2e --record --key c92c9122-e5ef-4475-81d4-0f2f3ba96aa8",
     "cy:run-unit": "cypress run --component",
-    "cy:e2e": "start-server-and-test dev http-get://localhost:5173 cy:open-e2e",
+    "cy:e2e": "start-server-and-test dev http-get://localhost:5173 cy:run-e2e",
     "cy:record": "cypress run --record --key c92c9122-e5ef-4475-81d4-0f2f3ba96aa8"
   },
   "dependencies": {
