@@ -20,14 +20,14 @@ jobs:
         with:
           node-version: 16
           install: npm ci --legacy-peer-deps
+          build: npm run build
+          start: npm preview
           # run: npm test
 
       - name: Cypress run
         uses: cypress-io/github-action@v4
         with:
           install: false
-          build: npm run build
-          start: npm preview
         env:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS.RECORD.KEY }}
           GITHUBTOKEN: ${{ secrets.GITHUB_TOKEN }}
