@@ -1,9 +1,11 @@
 name: Cypress test front
 
-on:
-  push:
-    paths:
-      - "front/**"
+on: push
+
+# on:
+#   push:
+#     paths:
+#       - "front/**"
 
 jobs:
   cypress-run:
@@ -36,3 +38,4 @@ jobs:
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
           # pass GitHub token to allow accurately detecting a build vs a re-run build
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          VITE_GOOGLE_CLIENT_ID: ${{ secrets.VITE_GOOGLE_CLIENT_ID }}
