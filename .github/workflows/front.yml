@@ -19,7 +19,7 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v4
-        working-directory: ./front
+        # working-directory: ./front
         with:
           command: npm run cy:e2e
           record: true
