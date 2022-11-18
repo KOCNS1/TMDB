@@ -22,7 +22,14 @@ async function bootstrap() {
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
   app.enableCors({
-    origin: ['http://localhost:5173', 'http://localhost:4200'],
+    origin: [
+      'http://localhost:5173',
+      'http://localhost:4200',
+      'http://localhost',
+      'http://localhost:80',
+      'https://tmdb-front-production.up.railway.app/',
+      'http://tmdb-front-production.up.railway.app/',
+    ],
     credentials: true,
   });
   app.use(cookieParser());
