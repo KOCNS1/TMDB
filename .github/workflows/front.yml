@@ -17,6 +17,7 @@ jobs:
 
       - name: Cypress run
         uses: cypress-io/github-action@v4
+        working-directory: ./front
         with:
           record: true
           project: ./front
