@@ -17,10 +17,12 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - run: npm ci --legacy-peer-deps
       - name: Cypress run
         uses: cypress-io/github-action@v4
         # working-directory: ./front
         with:
+          install: false
           command: npm run cy:e2e
           record: true
           project: ./front
