@@ -24,7 +24,7 @@ const GoogleLoginBtn = ({ query, from }: Props) => {
   };
 
   console.log(import.meta.env);
-  console.log(process.env);
+  console.log(process.env.VITE_GOOGLE_CLIENT_ID);
   const { signIn, loaded } = useGoogleLogin({
     onSuccess,
     onFailure,
