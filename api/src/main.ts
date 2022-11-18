@@ -24,14 +24,11 @@ async function bootstrap() {
   app.enableCors({
     origin: [
       'http://localhost:5173',
-      'http://localhost:4200',
-      'http://localhost',
-      'http://localhost:80',
       'https://tmdb-front-production.up.railway.app',
       'http://tmdb-front-production.up.railway.app',
-      'https://tmdb-front-one.vercel.app/',
-      'http://tmdb-front-one.vercel.app/',
-      'https://tmdb-front-kocns1.vercel.app/',
+      'https://tmdb-front-one.vercel.app',
+      'http://tmdb-front-one.vercel.app',
+      'https://tmdb-front-kocns1.vercel.app',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
