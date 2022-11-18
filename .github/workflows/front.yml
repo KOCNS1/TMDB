@@ -1,11 +1,9 @@
 name: Cypress test front
 
-on: push
-
-# on:
-#   push:
-#     paths:
-#       - "front/**"
+on:
+  push:
+    paths:
+      - "front/**"
 
 jobs:
   cypress-run:
