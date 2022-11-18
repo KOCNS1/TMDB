@@ -5,6 +5,8 @@ COPY . /usr/app
 
 RUN npm ci --legacy-peer-deps
 
+ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
+
 RUN npm run build
 
 FROM nginx:1.23.1-alpine
