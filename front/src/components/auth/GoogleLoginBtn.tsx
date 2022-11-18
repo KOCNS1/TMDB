@@ -23,6 +23,7 @@ const GoogleLoginBtn = ({ query, from }: Props) => {
     toast.error("Failed to login with google!");
   };
 
+  console.log(import.meta.env);
   const { signIn, loaded } = useGoogleLogin({
     onSuccess,
     onFailure,
