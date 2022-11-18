@@ -27,9 +27,10 @@ async function bootstrap() {
       'http://localhost:4200',
       'http://localhost',
       'http://localhost:80',
-      'https://tmdb-front-production.up.railway.app/',
-      'http://tmdb-front-production.up.railway.app/',
+      'https://tmdb-front-production.up.railway.app',
+      'http://tmdb-front-production.up.railway.app',
     ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
   });
   app.use(cookieParser());
