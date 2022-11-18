@@ -29,6 +29,8 @@ async function bootstrap() {
       'http://localhost:80',
       'https://tmdb-front-production.up.railway.app',
       'http://tmdb-front-production.up.railway.app',
+      'https://tmdb-front-one.vercel.app/',
+      'http://tmdb-front-one.vercel.app/',
     ],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
