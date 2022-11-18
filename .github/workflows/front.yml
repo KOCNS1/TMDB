@@ -1,9 +1,11 @@
 name: Cypress test front
 
-on:
-  push:
-    paths:
-      - "front/**"
+on: push
+
+# on:
+#   push:
+#     paths:
+#       - "front/**"
 
 jobs:
   cypress-run:
@@ -19,8 +21,11 @@ jobs:
         uses: cypress-io/github-action@v4
         working-directory: ./front
         with:
+          command: npm run cy:e2e
           record: true
           project: ./front
+          working-directory: ./front
+
         env:
           # pass the Dashboard record key as an environment variable
           CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
