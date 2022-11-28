@@ -12,7 +12,6 @@ import {
   Res,
   UseGuards,
 } from '@nestjs/common';
-import { RefreshTokenDto } from '../refresh-token/dto/refresh-token.dto';
 import { AuthService } from './auth.service';
 import GoogleTokenDto from './dto/google-token.dto';
 import { BasicAuthDto } from './dto/basic-auth.dto';
@@ -49,7 +48,7 @@ export class AuthController {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
       sameSite: 'none',
-      secure: true,
+      secure: false,
     });
     return res;
   }
@@ -80,7 +79,7 @@ export class AuthController {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
       sameSite: 'none',
-      secure: true,
+      secure: false,
     });
     return res;
   }
@@ -104,7 +103,7 @@ export class AuthController {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
       sameSite: 'none',
-      secure: true,
+      secure: false,
     });
     return res;
   }
@@ -162,7 +161,7 @@ export class AuthController {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
         sameSite: 'none',
-        secure: true,
+        secure: false,
       });
       return result;
     } else {
@@ -199,7 +198,7 @@ export class AuthController {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
         sameSite: 'none',
-        secure: true,
+        secure: false,
       });
       return result;
     } else {
