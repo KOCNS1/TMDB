@@ -1,4 +1,4 @@
-providers = ["...", "node"]
+providers = ["..."]
 buildImage = 'ghcr.io/railwayapp/nixpacks:debian-1669098887'
 
 [variables]
@@ -22,8 +22,8 @@ paths = ['/app/node_modules/.bin']
 
 [phases.setup]
 nixPkgs = [
-    'nodejs',
-    'npm',
+    'nodejs-16_x',
+    'npm-8_x',
 ]
 
 [phases.test]
