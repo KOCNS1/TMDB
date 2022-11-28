@@ -1,3 +1,7 @@
+Cypress.on("uncaught:exception", (err, runnable) => {
+  return false;
+});
+
 describe("Home Page", () => {
   before(() => {
     cy.visit("/");
