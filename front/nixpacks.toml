@@ -1,0 +1,35 @@
+providers = []
+buildImage = 'ghcr.io/railwayapp/nixpacks:debian-1669098887'
+
+[variables]
+CI = 'true'
+NIXPACKS_METADATA = 'node'
+NODE_ENV = 'production'
+NPM_CONFIG_PRODUCTION = 'false'
+[phases.build]
+dependsOn = ['install']
+cmds = ['npm run build']
+cacheDirectories = ['node_modules/.cache']
+
+[phases.install]
+dependsOn = ['setup']
+cmds = ['npm ci --legacy-peer-deps']
+cacheDirectories = [
+    '/root/.npm',
+    '/root/.cache/Cypress',
+]
+paths = ['/app/node_modules/.bin']
+
+[phases.setup]
+nixPkgs = [
+    'nodejs-16_x',
+    'npm-8_x',
+]
+
+[phases.test]
+dependsOn = ['build']
+cmds = ['npm run cy:e2e']
+
+nixOverlays = ['https://github.com/railwayapp/nix-npm-overlay/archive/main.tar.gz']
+nixpkgsArchive = 'a0b7e70db7a55088d3de0cc370a59f9fbcc906c3'
+
