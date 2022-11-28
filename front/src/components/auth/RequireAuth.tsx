@@ -10,8 +10,6 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const stateContext = useStateContext();
 
-  console.log(cookies);
-  console.log(stateContext);
   const { isLoading, isFetching, data } = useQuery(["authUser"], getMeFn, {
     retry: 1,
 
@@ -25,7 +23,7 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
     return <FullScreenLoader />;
   }
 
-  if (!cookies.logged_in || !data) {
+  if (!data) {
     // Redirect them to the /login page, but save the current location they were
     // trying to go to when they were redirected. This allows us to send them
     // along to that page after they login, which is a nicer user experience

@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useReducer } from "react";
+import { getMeFn } from "../../api/auth";
 import { IUser } from "../../api/types";
 
 type State = {
@@ -18,9 +19,11 @@ type Action = {
 
 type Dispatch = (action: Action) => void;
 
+const initialUser = await getMeFn();
+
 const initialState: State = {
-  authUser: null,
-  loggedIn: false,
+  authUser: initialUser || null,
+  loggedIn: !!initialUser,
   tmdbToken: false,
 };
 

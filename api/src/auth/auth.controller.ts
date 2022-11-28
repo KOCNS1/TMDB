@@ -111,9 +111,21 @@ export class AuthController {
   @Delete('logout')
   async logout(@Req() req, @Res() res: Response) {
     const refreshToken = req.cookies.refreshToken;
-    res.cookie('accessToken', '', { maxAge: -1 });
-    res.cookie('refreshToken', '', { maxAge: -1 });
-    res.cookie('logged_in', '', { maxAge: -1 });
+    res.cookie('accessToken', null, {
+      maxAge: -1,
+      sameSite: 'none',
+      secure: true,
+    });
+    res.cookie('refreshToken', null, {
+      maxAge: -1,
+      sameSite: 'none',
+      secure: true,
+    });
+    res.cookie('logged_in', null, {
+      maxAge: -1,
+      sameSite: 'none',
+      secure: true,
+    });
     return this.authService.basicAuthService.logout(refreshToken);
   }
 
