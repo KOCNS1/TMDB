@@ -21,10 +21,12 @@ cacheDirectories = [
 paths = ['/app/node_modules/.bin']
 
 [phases.setup]
-nixPkgs = [
-    'nodejs-16_x',
-    'npm-8_x',
-]
+# nixPkgs = [
+#     'nodejs-16_x',
+#     'npm-8_x',
+# ]
+
+aptPkgs = ["...", "node", "npm"]
 
 [phases.test]
 dependsOn = ['build']
