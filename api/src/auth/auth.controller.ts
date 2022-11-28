@@ -47,7 +47,7 @@ export class AuthController {
     response.cookie('logged_in', true, {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
-      sameSite: 'none',
+      //sameSite: 'none',
       secure: false,
     });
     return res;
@@ -78,7 +78,7 @@ export class AuthController {
     response.cookie('logged_in', true, {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
-      sameSite: 'none',
+      //sameSite: 'none',
       secure: false,
     });
     return res;
@@ -102,7 +102,7 @@ export class AuthController {
     response.cookie('logged_in', true, {
       httpOnly: false,
       expires: new Date(Date.now() + 900000),
-      sameSite: 'none',
+      //sameSite: 'none',
       secure: false,
     });
     return res;
@@ -160,7 +160,7 @@ export class AuthController {
       response.cookie('logged_in', true, {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
-        sameSite: 'none',
+        //sameSite: 'none',
         secure: false,
       });
       return result;
@@ -197,7 +197,7 @@ export class AuthController {
       response.cookie('logged_in', true, {
         httpOnly: false,
         expires: new Date(Date.now() + 900000),
-        sameSite: 'none',
+        //sameSite: 'none',
         secure: false,
       });
       return result;
