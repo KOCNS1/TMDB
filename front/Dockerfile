@@ -3,11 +3,17 @@ FROM node:16 as build
 WORKDIR /usr/app
 COPY . /usr/app
 
+
+FROM build as test
 RUN npm ci --legacy-peer-deps
+COPY . .
+RUN npm run cy:e2e
 
-ENV VITE_GOOGLE_CLIENT_ID=$VITE_GOOGLE_CLIENT_ID
 
+FROM build as prod
+RUN npm ci --legacy-peer-deps
 RUN npm run build
+COPY . .
 
 FROM nginx:1.23.1-alpine
 EXPOSE 80
