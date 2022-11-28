@@ -10,6 +10,8 @@ export const RequireAuth = ({ children }: { children: JSX.Element }) => {
   const location = useLocation();
   const stateContext = useStateContext();
 
+  console.log(cookies);
+  console.log(stateContext);
   const { isLoading, isFetching, data } = useQuery(["authUser"], getMeFn, {
     retry: 1,
 
