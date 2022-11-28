@@ -2,16 +2,19 @@ FROM node:16 as build
 
 WORKDIR /usr/app
 COPY . /usr/app
+RUN npm ci --legacy-peer-deps
+#RUN npm run cy:e2e
+RUN npm run build
 
 
 FROM cypress/base
 RUN npm install --legacy-peer-deps
 RUN $(npm bin)/cypress run
 
-FROM build
-RUN npm ci --legacy-peer-deps
-#RUN npm run cy:e2e
-RUN npm run build
+# FROM build
+# RUN npm ci --legacy-peer-deps
+# #RUN npm run cy:e2e
+# RUN npm run build
 
 
 FROM nginx:1.23.1-alpine
