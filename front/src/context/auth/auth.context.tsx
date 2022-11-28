@@ -19,13 +19,18 @@ type Action = {
 
 type Dispatch = (action: Action) => void;
 
-const initialUser = await getMeFn();
-
 const initialState: State = {
-  authUser: initialUser || null,
-  loggedIn: !!initialUser,
+  authUser: null,
+  loggedIn: false,
   tmdbToken: false,
 };
+
+getMeFn().then((data) => {
+  if (data) {
+    initialState.authUser = data;
+    initialState.loggedIn = true;
+  }
+});
 
 type StateContextProviderProps = { children: React.ReactNode };
 
