@@ -7,6 +7,7 @@ import FullScreenLoader from "../../../components/ui/FullScreenLoader/FullScreen
 import CastSlider from "../../../components/tmdb/cast/Cast";
 import ReactPlayer from "react-player";
 import SimilarMoviesComponent from "../../../components/tmdb/similarMovies/SimilarMovies";
+import RadialProgressBar from "../../../components/ui/RadialProgressBar/RadialProgressBar";
 
 type Props = { type: "movie" | "tv"; id: string };
 
@@ -19,9 +20,10 @@ const getYear = (date: Date | undefined) => {
 };
 
 const getColor = (value: number) => {
-  if (value >= 7 && value <= 10) return " text-success";
-  else if (value >= 4 && value <= 7) return " text-warning";
-  else if (value >= 0 && value <= 4) return " text-error";
+  if (value >= 7 && value <= 10) return "rgb(22 163 74)";
+  else if (value >= 4 && value <= 7) return "rgb(202 138 4)";
+  else if (value >= 0 && value <= 4) return "rgb(220 38 38)";
+  else return "rgb(22 163 74)";
 };
 
 const ContentDetails = () => {
@@ -76,17 +78,12 @@ const ContentDetails = () => {
 
           <div className="flex items-center justify-start gap-9">
             <div className="flex items-center justify-center gap-3">
-              <RadialProgress
-                size="3rem"
-                value={Math.round(data.vote_average * 10)}
-                thickness={"0.2rem"}
-                className={
-                  "bg-black border-1 border-black radial-progress text-white" +
-                  getColor(data.vote_average)
-                }
-              >
-                {Math.floor(data.vote_average * 10)}%{" "}
-              </RadialProgress>
+              <RadialProgressBar
+                percentage={data.vote_average * 10}
+                sqSize={50}
+                strokeWidth={5}
+                color={getColor(data.vote_average)}
+              />
               <p className="text-white font-light">{data.vote_count} votes</p>
             </div>
             <div className="flex justify-between gap-5">

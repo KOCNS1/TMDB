@@ -25,12 +25,17 @@ const initialState: State = {
   tmdbToken: false,
 };
 
-getMeFn().then((data) => {
-  if (data) {
-    initialState.authUser = data;
-    initialState.loggedIn = true;
-  }
-});
+getMeFn()
+  .then((data) => {
+    if (data) {
+      initialState.authUser = data;
+      initialState.loggedIn = true;
+    }
+  })
+  .catch((err) => {
+    initialState.authUser = null;
+    initialState.loggedIn = false;
+  });
 
 type StateContextProviderProps = { children: React.ReactNode };
 

@@ -22,11 +22,11 @@ export const userMenu = [
   },
   {
     name: "Settings",
-    to: "#",
+    to: "/settings",
   },
   {
     name: "Sign out",
-    to: "#",
+    to: "/logout",
     action: (handleLogout: () => void) => {
       handleLogout();
     },
