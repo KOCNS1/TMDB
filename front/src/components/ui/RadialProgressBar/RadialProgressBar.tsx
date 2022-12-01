@@ -30,15 +30,15 @@ const RadialProgressBar = (props: Props) => {
           <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor={"black"} />
         </filter>
         <filter id="shadow2">
-          <feDropShadow dx="0" dy="0" stdDeviation="0.5" flood-color="cyan" />
+          <feDropShadow dx="0" dy="0" stdDeviation="0.5" floodColor="cyan" />
         </filter>
         <filter id="shadow3">
           <feDropShadow
             dx="-0.8"
             dy="-0.8"
             stdDeviation="0"
-            flood-color="pink"
-            flood-opacity="0.5"
+            floodColor="pink"
+            floodOpacity="0.5"
           />
         </filter>
       </defs>

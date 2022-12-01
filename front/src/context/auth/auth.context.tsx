@@ -1,6 +1,7 @@
-import React, { createContext, useContext, useReducer } from "react";
+import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { getMeFn } from "../../api/auth";
 import { IUser } from "../../api/types";
+import useMountAuth from "./useMountAuth";
 
 type State = {
   authUser: IUser | null;
@@ -19,23 +20,11 @@ type Action = {
 
 type Dispatch = (action: Action) => void;
 
-const initialState: State = {
+export const initialState: State = {
   authUser: null,
   loggedIn: false,
   tmdbToken: false,
 };
-
-getMeFn()
-  .then((data) => {
-    if (data) {
-      initialState.authUser = data;
-      initialState.loggedIn = true;
-    }
-  })
-  .catch((err) => {
-    initialState.authUser = null;
-    initialState.loggedIn = false;
-  });
 
 type StateContextProviderProps = { children: React.ReactNode };
 
@@ -43,7 +32,7 @@ const StateContext = createContext<
   { state: State; dispatch: Dispatch } | undefined
 >(undefined);
 
-const stateReducer = (state: State, action: Action) => {
+export const stateReducer = (state: State, action: Action) => {
   switch (action.type) {
     case "SET_USER": {
       return {
@@ -72,8 +61,9 @@ const stateReducer = (state: State, action: Action) => {
 };
 
 const StateContextProvider = ({ children }: StateContextProviderProps) => {
-  const [state, dispatch] = useReducer(stateReducer, initialState);
+  const { state, dispatch } = useMountAuth();
   const value = { state, dispatch };
+
   return (
     <StateContext.Provider value={value}>{children}</StateContext.Provider>
   );
