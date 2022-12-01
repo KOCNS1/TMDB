@@ -47,7 +47,7 @@ const ContentDetails = () => {
 
   return (
     <div className="mt-4">
-      <div className="md:flex-row flex-col flex gap-6 rounded-lg p-4 w-full items-center">
+      <div className="md:flex-row flex-col flex gap-6 rounded-lg w-full items-center">
         <div
           className={`flex items-center justify-start w-screen md:bg-none md:shadow-none`}
           style={{
@@ -99,7 +99,7 @@ const ContentDetails = () => {
                 {data.vote_count} votes
               </p>
             </div>
-            <div className="md:hidden border border-white h-8 border-"></div>
+            <div className="border border-white h-8 hidden xsm:block md:hidden"></div>
             <div className="md:flex justify-start gap-5 ml-2 hidden">
               <button className="border-blue-500 hover:border-blue-600 border-2 rounded-full p-2">
                 <ListBulletIcon className="h-6 w-6 stroke-white stroke-2" />
@@ -137,10 +137,10 @@ const ContentDetails = () => {
             </div>
           </div>
 
-          <div className="-mt-3">
+          <div className="mt-3">
             <p className="font-extralight italic pb-2">{data.tagline}</p>
 
-            <h4 className="text-xl">Synopsis</h4>
+            <h4 className="text-xl mt-3">Synopsis</h4>
             <p className="text-white text-sm font-light mt-5 w-fit">
               {data.overview}
             </p>
