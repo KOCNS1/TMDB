@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import { RadialProgress } from "react-daisyui";
 import { Movie, TVDetails } from "../../../types/api-interfaces";
+import RadialProgressBar from "../../ui/RadialProgressBar/RadialProgressBar";
+import { getColor } from "../../../utils/getColor";
 
 export const isMovie = (content: Movie | TVDetails): content is Movie => {
   return (content as Movie).title !== undefined;
@@ -8,12 +10,6 @@ export const isMovie = (content: Movie | TVDetails): content is Movie => {
 
 type Props = {
   content: Movie[] | TVDetails[];
-};
-
-const getColor = (value: number) => {
-  if (value >= 7 && value <= 10) return " text-success";
-  else if (value >= 4 && value <= 7) return " text-warning";
-  else if (value >= 0 && value <= 4) return " text-error";
 };
 
 const PopularSlider = ({ content }: Props) => {
@@ -42,7 +38,16 @@ const PopularSlider = ({ content }: Props) => {
             </Link>
 
             <div className="relative">
-              <RadialProgress
+              <div className="absolute -top-8 left-1">
+                <RadialProgressBar
+                  percentage={item.vote_average * 10}
+                  sqSize={40}
+                  strokeWidth={3}
+                  textSize={0.7}
+                  color={getColor(item.vote_average)}
+                />
+              </div>
+              {/* <RadialProgress
                 size="2.5rem"
                 value={item.vote_average * 10}
                 className={
@@ -51,8 +56,8 @@ const PopularSlider = ({ content }: Props) => {
                 }
               >
                 {item.vote_average * 10}%
-              </RadialProgress>
-              <p className="font-bold pt-5">
+              </RadialProgress> */}
+              <p className="font-bold pt-7">
                 {isMovie(item) ? item.title : item.name}
               </p>
               <p className="text-sm text-gray-200">

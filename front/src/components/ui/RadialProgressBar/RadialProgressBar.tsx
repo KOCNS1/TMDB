@@ -3,6 +3,7 @@ type Props = {
   percentage: number;
   strokeWidth: number;
   color: string;
+  textSize?: number;
 };
 
 const RadialProgressBar = (props: Props) => {
@@ -75,7 +76,8 @@ const RadialProgressBar = (props: Props) => {
         }}
       />
       <text
-        className="circle-text text-sm"
+        className="circle-text"
+        fontSize={props.textSize + "rem"}
         fill={"#fff"}
         x="50%"
         y="50%"

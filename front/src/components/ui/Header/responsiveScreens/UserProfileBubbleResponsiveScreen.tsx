@@ -13,7 +13,7 @@ const UserProfileBubbleResponsiveScreen = ({
         <NavLink
           to={item.to}
           key={key}
-          className={({ isActive, isPending }) =>
+          className={({ isActive }) =>
             classNames(
               isActive
                 ? "bg-gray-900 text-white"

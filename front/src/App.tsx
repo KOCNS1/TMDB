@@ -34,7 +34,7 @@ const App = () => {
   return (
     <div className="App w-11/12 mx-auto flex flex-col min-h-screen">
       <Header setOpen={setOpenSearch} />
-      <main className="flex-1 h-full">
+      <main className="flex-1 h-full mb-4">
         <Outlet />
         {openSearch && <Search open={openSearch} setOpen={setOpenSearch} />}
       </main>
