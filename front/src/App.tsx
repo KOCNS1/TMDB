@@ -32,9 +32,9 @@ const App = () => {
   }, []);
 
   return (
-    <div className="App w-11/12 mx-auto flex flex-col min-h-screen">
+    <div className="App mx-auto flex flex-col min-h-screen">
       <Header setOpen={setOpenSearch} />
-      <main className="flex-1 h-full mb-4">
+      <main className="flex-1 h-full mb-4 w-11/12 mx-auto">
         <Outlet />
         {openSearch && <Search open={openSearch} setOpen={setOpenSearch} />}
       </main>

@@ -49,7 +49,7 @@ const ContentDetails = () => {
     <div className="mt-4">
       <div className="lg:flex-row flex-col flex gap-6 rounded-lg w-full items-center">
         <div
-          className={`flex items-center justify-start w-screen lg:bg-none lg:shadow-none`}
+          className={`flex items-center justify-start w-screen lg:w-auto lg:bg-none lg:shadow-none`}
           style={{
             backgroundImage: `linear-gradient(
               rgba(0, 0, 0, 0.2), 
@@ -103,7 +103,7 @@ const ContentDetails = () => {
               </p>
             </div>
             <div className="border-l border-white h-8 hidden xsm:block lg:hidden"></div>
-            <div className="flex lg:static lg:bg-transparent lg:w-auto lg:justify-start gap-5 lg:ml-2 fixed bottom-0 z-10 bg-gray-800 rounded w-11/12 mx-auto justify-around pb-3 pt-2 lg:mx-0">
+            <div className="flex lg:static lg:bg-transparent lg:w-auto lg:justify-start gap-5 lg:ml-2 fixed bottom-0 z-10 bg-gray-800 rounded w-screen justify-around pb-3 pt-2 lg:mx-0">
               <button className="lg:border-blue-500 lg:border lg:p-3 hover:border-blue-600 rounded-full p-2">
                 <ListBulletIcon className="h-5 w-5 stroke-white" />
               </button>

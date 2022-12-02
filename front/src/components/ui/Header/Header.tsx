@@ -47,10 +47,7 @@ const Header = ({ setOpen }: Props) => {
     navigate("/");
   };
   return (
-    <Disclosure
-      as="nav"
-      className="bg-gray-800 mt-2 rounded-xl shadow-md shadow-black"
-    >
+    <Disclosure as="nav" className="bg-gray-800 shadow-2xl shadow-black">
       {({ open }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-8">
