@@ -27,7 +27,7 @@ const TraillerModal = ({ open, setOpen, video }: Props) => {
         </Transition.Child>
 
         <div className="fixed inset-0 z-10 overflow-y-auto">
-          <div className="flex w-full min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
+          <div className="flex w-full min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
               enter="ease-out duration-300"
@@ -37,12 +37,15 @@ const TraillerModal = ({ open, setOpen, video }: Props) => {
               leaveFrom="opacity-100 translate-y-0 sm:scale-100"
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
-              <Dialog.Panel className=" max-w-full bg-black relative transform overflow-hidden rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-3/4 sm:p-6">
+              <Dialog.Panel className=" max-w-full bg-black relative transform overflow-hidden rounded-lg px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 w-full sm:p-6 sm:w-3/4">
                 <button
-                  className="absolute right-5 top-3 items-center rounded-full border-2 bg-black p-1 text-white shadow-sm hover:bg-gray-500 focus:outline-none focus:ring-2 border-blue-500"
+                  className="absolute right-5 top-3"
                   onClick={() => setOpen(false)}
                 >
-                  <XMarkIcon className="h-5 w-5 stroke-2" aria-hidden="true" />
+                  <XMarkIcon
+                    className="h-5 w-5 stroke-2 stroke-white"
+                    aria-hidden="true"
+                  />
                 </button>
                 <h3 className="text-xl font-bold ml-3 py-3 text-white">
                   Bande-annonce

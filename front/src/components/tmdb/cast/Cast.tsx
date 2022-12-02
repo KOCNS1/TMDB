@@ -17,7 +17,7 @@ const CastSlider = ({ content }: Props) => {
                 <img
                   src={
                     item.profile_path
-                      ? `https://www.themoviedb.org/t/p/w138_and_h175_face/${item.profile_path}`
+                      ? `	https://www.themoviedb.org/t/p/w240_and_h266_face/${item.profile_path}`
                       : "https://via.placeholder.com/138x175"
                   }
                   width={440}

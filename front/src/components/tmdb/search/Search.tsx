@@ -9,16 +9,12 @@ import { getSearchResults } from "../../../api/tmdb.api";
 import { Result } from "../../../types/search";
 import FullScreenLoader from "../../ui/FullScreenLoader/FullScreenLoader";
 import { RadialProgress } from "react-daisyui";
+import RadialProgressBar from "../../ui/RadialProgressBar/RadialProgressBar";
+import { getColor } from "../../../utils/getColor";
 
 type Props = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-};
-
-const getColor = (value: number) => {
-  if (value >= 7 && value <= 10) return " text-success";
-  else if (value >= 4 && value <= 7) return " text-warning";
-  else if (value >= 0 && value <= 4) return " text-error";
 };
 
 function classNames(...classes: string[]) {
@@ -173,7 +169,7 @@ const Search = ({ open, setOpen }: Props) => {
                               </p>
                             </div>
                             <div className="flex flex-auto flex-col justify-between p-6">
-                              <dl className="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-100">
+                              <dl className="grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-gray-100 h-3/4 mb-5">
                                 <dt className="col-end-1 font-semibold text-white">
                                   Original language
                                 </dt>
@@ -188,16 +184,19 @@ const Search = ({ open, setOpen }: Props) => {
                                   Popularity
                                 </dt>
                                 <dd className="relative">
-                                  <RadialProgress
-                                    size="3rem"
-                                    value={activeOption.vote_average! * 10}
-                                    className={
-                                      "bg-gray-800 absolute text-sm font-bold shadow-md shadow-black" +
-                                      getColor(activeOption.vote_average!)
-                                    }
-                                  >
-                                    {activeOption.vote_average! * 10}%
-                                  </RadialProgress>
+                                  <div className="absolute">
+                                    <RadialProgressBar
+                                      percentage={
+                                        activeOption.vote_average! * 10
+                                      }
+                                      sqSize={40}
+                                      strokeWidth={4}
+                                      color={getColor(
+                                        activeOption.vote_average!
+                                      )}
+                                      textSize={0.6}
+                                    />
+                                  </div>
                                 </dd>
                               </dl>
                               <button
